@@ -408,7 +408,7 @@ function renderDay(){
 
   const DT=PLAN.fuel.day_types;
   let ft;
-  if(idx>=68){ft=DT[3];}
+  if(idx>=69){ft=DT[3];}
   else{
     const long=set.some(b=>(b.t==='bike'||b.t==='run')&&dur(b)>=90);
     const train=set.some(b=>['swim','bike','run','lift'].includes(b.t));
