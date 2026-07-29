@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gym — 70.3 Waco</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B1216">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230B1216'/%3E%3Crect y='84' width='100' height='16' fill='%23F03A56'/%3E%3Ctext x='50' y='60' font-family='Arial Black,sans-serif' font-size='42' font-weight='900' fill='%23fff' text-anchor='middle'%3E70%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --deck:#0B1216;--card:#121C23;--card2:#17242D;--ink:#E9EEF2;--ink2:#8FA3AE;--rule:#233340;
+  --swim:#35B7DB;--bike:#E08A45;--run:#9CC93F;--lift:#97A0B5;--gate:#F03A56;
+  --fuel:#D9AC3F;--prod:#56707F;--play:#3AA891;--class:#9D86E8;--rec:#63808C;--sleep:#2E4A5C;
+  --disp:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--deck);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);font-weight:700;margin:0;text-transform:uppercase;letter-spacing:.02em}
+:focus-visible{outline:3px solid var(--gate);outline-offset:2px}
+button{font-family:inherit}
+
+.bib{background:var(--deck);padding:32px 0 24px;border-bottom:4px solid var(--gate)}
+.bib .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink2)}
+.bib h1{font-size:clamp(40px,11vw,88px);line-height:.9;margin:10px 0 0}
+.bib h1 .sub{display:block;font-size:clamp(15px,4vw,26px);font-weight:500;letter-spacing:.14em;color:var(--ink2);margin-top:12px}
+.clock{display:flex;gap:26px;margin-top:24px;flex-wrap:wrap}
+.clock .n{font-family:var(--disp);font-size:38px;font-weight:700;line-height:1;display:block}
+.clock .l{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+.dists{display:flex;margin-top:24px;border-top:1px solid var(--rule)}
+.dists div{flex:1;padding:13px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ink2);border-right:1px solid var(--rule)}
+.dists div:last-child{border-right:0}
+.dists b{display:block;font-family:var(--disp);font-size:24px;font-weight:700;color:var(--ink)}
+.dists .sw b{color:var(--swim)}.dists .bk b{color:var(--bike)}.dists .rn b{color:var(--run)}
+
+section{padding:50px 0 6px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink2)}
+h2{font-size:clamp(25px,6vw,40px);margin:8px 0 16px;line-height:1.05}
+.lede{max-width:64ch;color:var(--ink2)}
+.lede strong{color:var(--ink)}
+
+/* today */
+.today{background:var(--card);border-bottom:1px solid var(--rule)}
+.today .inner{padding:24px 0 28px}
+.today .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gate)}
+.today h2{font-size:clamp(22px,5.5vw,30px);margin:8px 0 2px}
+.today .meta{font-family:var(--mono);font-size:12px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
+.tnote{margin:14px 0 0;font-size:14px;color:var(--ink2);border-left:3px solid var(--rule);padding-left:12px}
+
+/* date strip */
+.dstrip{display:flex;gap:4px;overflow-x:auto;padding:6px 2px 10px;margin:18px 0 4px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.dcell{flex:none;width:46px;padding:6px 0 7px;background:var(--card);border:1px solid var(--rule);color:var(--ink2);
+  cursor:pointer;text-align:center;position:relative}
+.dcell .mlab{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gate);height:11px}
+.dcell .dw{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+.dcell .dn{display:block;font-family:var(--disp);font-size:18px;font-weight:700;color:var(--ink);line-height:1.2}
+.dcell.now{border-color:var(--gate)}
+.dcell.now .dw{color:var(--gate)}
+.dcell.sel{background:var(--ink);border-color:var(--ink)}
+.dcell.sel .dn{color:var(--deck)}
+.dcell.sel .dw{color:#5c6d78}
+.dcell.mod::after{content:"";position:absolute;right:4px;top:4px;width:5px;height:5px;background:var(--class)}
+.dayhead{margin-top:14px}
+.dayhead h3{font-size:clamp(19px,4.5vw,26px)}
+.dmeta{font-family:var(--mono);font-size:11.5px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.dbanner{font-family:var(--mono);font-size:11.5px;color:var(--class);letter-spacing:.04em;margin-top:8px}
+.dbanner button{background:none;border:1px solid var(--rule);color:var(--ink2);font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;margin-left:8px;cursor:pointer}
+.ditems{margin:12px 0 4px}
+
+/* ribbon */
+.ribbon{display:flex;height:26px;margin:18px 0 4px;border:1px solid var(--rule);overflow:hidden}
+.ribbon i{display:block;height:100%}
+.rlabels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink2);letter-spacing:.08em}
+
+/* blocks */
+.blocks{list-style:none;margin:16px 0 0;padding:0;border-top:1px solid var(--rule)}
+.blocks li{display:grid;grid-template-columns:96px 6px 1fr;gap:12px;align-items:stretch;
+  border-bottom:1px solid var(--rule);background:var(--card);padding:0}
+.bt{font-family:var(--mono);font-size:12px;color:var(--ink2);padding:12px 0 12px 14px;white-space:nowrap;letter-spacing:.02em}
+.bc{width:6px}
+.bx{padding:11px 14px 12px 0}
+.bx .h{font-weight:600;font-size:15.5px}
+.bx .n{font-size:13.5px;color:var(--ink2);margin-top:2px}
+.bx .dur{font-family:var(--mono);font-size:11px;color:var(--ink2);float:right;margin-left:10px}
+li.assume .bx .h::after{content:" — assumption";font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--class);font-weight:500}
+.ebtn{float:right;background:none;border:1px solid var(--rule);color:var(--ink2);font-family:var(--mono);
+  font-size:11px;padding:3px 9px;margin-left:10px;cursor:pointer}
+.ebtn:hover{border-color:var(--ink);color:var(--ink)}
+.ef{margin-top:10px;padding:12px;background:var(--card2);border:1px solid var(--rule);display:grid;gap:8px}
+.ef .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ef label{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.ef input,.ef select{background:var(--deck);color:var(--ink);border:1px solid var(--rule);font:inherit;font-size:14px;padding:6px 8px}
+.ef input[type=time]{font-family:var(--mono)}
+.ef input.wide{flex:1;min-width:180px}
+.ef .act{background:var(--ink);color:var(--deck);border:0;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+.ef .ghost{background:none;color:var(--ink2);border:1px solid var(--rule)}
+.ef .danger{background:none;color:var(--gate);border:1px solid var(--gate)}
+.dayctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.dayctl button{background:none;border:1px dashed var(--rule);color:var(--ink2);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+.dayctl button:hover{border-color:var(--ink);color:var(--ink)}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;display:block}
+
+/* gate */
+.gatewrap{background:#070D10;padding:42px 0;margin-top:12px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2px;margin-top:24px;background:var(--rule)}
+.g{background:var(--card);padding:20px}
+.g .d{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gate);text-transform:uppercase}
+.g .y{font-family:var(--disp);font-size:34px;font-weight:700;line-height:1.05;margin:8px 0 4px}
+.g .w{font-size:14px;color:var(--ink2)}
+.gatebar{margin-top:24px;border-top:2px solid var(--gate);padding-top:15px;font-size:14px;color:var(--ink2);max-width:68ch}
+.gatebar b{color:var(--ink)}
+
+/* lanes */
+.lanes{margin-top:20px;border-top:1px solid var(--rule)}
+.lane{border-bottom:1px solid var(--rule);background:var(--card)}
+.lane.prov{background:transparent}
+.lhead{display:grid;grid-template-columns:50px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;
+  background:none;border:0;padding:15px 12px;cursor:pointer;font:inherit;color:inherit}
+.lhead:hover{background:var(--card2)}
+.num{font-family:var(--disp);font-size:28px;font-weight:700;line-height:1}
+.lane.prov .num{color:#4A5B66}
+.ltitle{font-family:var(--disp);font-size:17px;font-weight:600;text-transform:uppercase;line-height:1.1}
+.ldate{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.bars{display:flex;gap:3px;align-items:flex-end;height:32px}
+.bars i{width:9px;display:block}
+.bars .s{background:var(--swim)}.bars .b{background:var(--bike)}.bars .r{background:var(--run)}
+.chev{font-family:var(--mono);color:var(--ink2)}
+.lbody{display:none;padding:2px 12px 20px}
+.lane.open .lbody{display:block}
+.keyline{font-family:var(--mono);font-size:12px;background:var(--card2);border-left:3px solid var(--ink);padding:9px 12px;margin:0 0 12px}
+.days{list-style:none;margin:0;padding:0}
+.days li{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:8px 0;border-top:1px dotted var(--rule);font-size:15px}
+.days li:first-child{border-top:0}
+.dy{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);padding-top:3px}
+button.dy{background:none;border:0;cursor:pointer;text-align:left;padding:3px 0 0;text-decoration:underline dotted}
+button.dy:hover{color:var(--ink)}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 6px;color:#070d10;margin-right:7px;font-weight:600}
+.p-s{background:var(--swim)}.p-b{background:var(--bike)}.p-r{background:var(--run)}
+.p-l{background:var(--lift)}.p-x{background:#8A9AA3}.p-g{background:var(--gate);color:#fff}
+
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14.5px;background:var(--card)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);background:var(--card2)}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:2px;margin-top:20px;background:var(--rule)}
+.shop{background:var(--card);padding:20px}
+.shop h3{font-size:16px;margin-bottom:10px}
+.shop ul{margin:0;padding-left:17px;font-size:14.5px;color:var(--ink2)}
+.shop li{margin-bottom:5px}.shop li b{color:var(--ink);font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:20px;background:var(--rule)}
+.col{background:var(--card);padding:20px}
+.col h3{font-size:16px;margin-bottom:2px}
+.col .when{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.sched{list-style:none;margin:0;padding:0}
+.sched li{display:grid;grid-template-columns:58px 1fr;gap:10px;padding:7px 0;border-top:1px dotted var(--rule);font-size:14.5px}
+.sched li:first-child{border-top:0}
+.sched .t{font-family:var(--mono);font-size:12px;color:var(--ink2);padding-top:2px}
+.needs{background:var(--card);border:1px solid var(--rule);padding:20px;margin-top:16px}
+.needs ol{margin:10px 0 0;padding-left:20px}.needs li{margin-bottom:7px}
+footer{margin-top:52px;padding:26px 0 44px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+footer a{color:inherit}
+@media(max-width:720px){.two{grid-template-columns:1fr}.blocks li{grid-template-columns:78px 6px 1fr;gap:9px}.bt{padding-left:10px;font-size:11px}}
+.reveal{opacity:0;transform:translateY(12px)}
+.reveal.in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+@media(prefers-reduced-motion:reduce){.reveal,.reveal.in{opacity:1;transform:none;transition:none}}
+
+/* check-off */
+.ckrow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px dotted var(--rule);cursor:pointer;font-size:15px}
+.ckrow:first-of-type{border-top:0}
+.ck{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--gate);cursor:pointer}
+.ctxt{flex:1;min-width:0}
+.ckrow.done .ctxt{opacity:.45;text-decoration:line-through}
+.ckrow .rmv{flex:none;background:none;border:0;color:var(--ink2);font-size:17px;cursor:pointer;padding:0 4px;line-height:1}
+.cnt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink2);border:1px solid var(--rule);padding:2px 8px;white-space:nowrap}
+.addbtn{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:none;
+  border:1px dashed var(--rule);color:var(--ink2);padding:8px 14px;margin-top:12px;cursor:pointer}
+.addbtn:hover{border-color:var(--ink);color:var(--ink)}
+.bck{float:right;margin:2px 0 0 10px}
+li.done .bt,li.done .bx{opacity:.45}
+li.done .bx .h{text-decoration:line-through}
+.kre .ckrow{font-size:13.5px;padding:6px 0;color:var(--ink2)}
+.days li .ckrow{padding:5px 0;border-top:0}
+
+/* nav */
+.nav{display:flex;gap:2px;background:var(--rule);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:50}
+.nav a{flex:1;text-align:center;background:var(--deck);color:var(--ink2);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.18em;text-transform:uppercase;padding:13px 4px;text-decoration:none}
+.nav a.on{background:var(--card);color:var(--ink);box-shadow:inset 0 -2px 0 var(--gate)}
+.nav a:hover{color:var(--ink)}
+/* eat today card */
+.eat{display:flex;gap:6px 16px;flex-wrap:wrap;align-items:baseline;background:var(--card2);border:1px solid var(--rule);padding:12px 14px;margin:14px 0 2px}
+.eat .kc{font-family:var(--disp);font-size:25px;font-weight:700}
+.eat .mac{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.eat .mt{font-family:var(--mono);font-size:11px;color:var(--ink2);width:100%;margin-top:4px}
+.pgh{background:var(--deck);padding:26px 0 18px;border-bottom:4px solid var(--gate)}
+.pgh h1{font-size:clamp(30px,8vw,54px);line-height:.95}
+.pgh .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink2)}
+.srcs{font-size:12.5px;color:var(--ink2);margin-top:26px;border-top:1px solid var(--rule);padding-top:14px}
+.srcs a{color:var(--ink2)}
+
+</style>
+</head>
+<body>
+
+<header class="pgh">
+  <div class="wrap">
+    <div class="eyebrow">The regime &middot; 70.3 Waco &middot; 4 Oct 2026</div>
+    <h1>Gym</h1>
+  </div>
+</header>
+
+<nav class="nav"><a href="./">Daily</a><a href="training.html">Training</a><a href="diet.html">Diet</a><a class="on" href="gym.html">Gym</a></nav>
+
+<section class="wrap">
+  <div class="tag">What thirteen months of Hevy actually said</div>
+  <h2>Why this program</h2>
+  <p class="lede">Your own log, 2,276 rows: <strong>102 sessions in 13 months — 1.8 a week</strong>, drifting to one a week since March. Twenty lower-body sessions total, none since 11 May, no barbell squat or deadlift anywhere. Lateral raises appeared 52 times and kickbacks 48 — accessories crowding out compounds. The research you did points the same place the data does: <strong>compounds first, close to failure, hit everything at least twice a week, stop</strong>. So this is two 45-minute days that fit inside a triathlon build — the program the data says you'll actually do, not the one that looks best on paper.</p>
+</section>
+
+<section class="wrap">
+  <div class="tag">Two days, 45 minutes each &middot; wired into the Daily schedule</div>
+  <h2>The program</h2>
+  <div class="two">
+    <div class="col">
+      <h3>Day A &middot; Tuesday</h3>
+      <div class="when">Upper &middot; compounds only</div>
+      <ul class="sched">
+        <li><span class="t">4&times;5</span><span>Bench press &mdash; start 180</span></li>
+        <li><span class="t">4&times;6</span><span>Wide pull-up &mdash; weighted when 4&times;6 is easy</span></li>
+        <li><span class="t">3&times;8</span><span>Incline DB press</span></li>
+        <li><span class="t">3&times;8</span><span>Pendlay row &mdash; 115 total, log it that way</span></li>
+        <li><span class="t">3&times;15</span><span>Hanging leg raise</span></li>
+      </ul>
+      <p style="font-size:13.5px;color:var(--ink2);margin-top:12px">Your bench is 225×1 — strength isn't the gap. This day maintains it in 45 minutes so the pool gets the rest of you.</p>
+    </div>
+    <div class="col">
+      <h3>Day B &middot; Monday</h3>
+      <div class="when">Lower &middot; the actual gap</div>
+      <ul class="sched">
+        <li><span class="t">3&times;5</span><span>Back squat &mdash; start 135, technique first</span></li>
+        <li><span class="t">3&times;6</span><span>Romanian deadlift &mdash; start 185</span></li>
+        <li><span class="t">2&times;10</span><span>Bulgarian split squat, each leg</span></li>
+        <li><span class="t">3&times;15</span><span>Standing calf raise</span></li>
+        <li><span class="t">3&times;45s</span><span>Plank</span></li>
+      </ul>
+      <p style="font-size:13.5px;color:var(--ink2);margin-top:12px">Twenty lower sessions in 13 months and no barbell squat anywhere is the hole in the armor. This sits on Monday so soreness never lands on the weekend long ride.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag">Progression &middot; the boring rules that work</div>
+  <h2>How it moves</h2>
+  <div class="needs">
+    <ol>
+      <li><b>Add 5 lb when every set completes clean</b> at effort ~2 reps shy of failure. Miss a week? Repeat the weight. No maxing during the build.</li>
+      <li><b>Squat earns load with depth first.</b> 135 until 3×5 hits depth on video; then normal progression.</li>
+      <li><b>The accessories you love are the dessert, not the meal.</b> If laterals and kickbacks return, they go after the compounds, never instead.</li>
+      <li><b>During race week (28 Sep–4 Oct):</b> one light full-body session Tuesday, nothing after Wednesday.</li>
+      <li><b>Cut phase, from 5 Oct:</b> same lifts, keep the load, drop one set each, protein up to 180g — muscle keeps mass it's asked to keep.</li>
+      <li><b>Log everything in Hevy</b>, same as the 102 before it. The next program gets designed off this data.</li>
+    </ol>
+  </div>
+</section>
+
+<footer class="wrap">
+  Two days &middot; Monday lower / Tuesday upper &middot; scheduled on the <a href="./">Daily page</a>
+</footer>
+</body>
+</html>

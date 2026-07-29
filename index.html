@@ -19,6 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+
 :root{
   --deck:#0B1216;--card:#121C23;--card2:#17242D;--ink:#E9EEF2;--ink2:#8FA3AE;--rule:#233340;
   --swim:#35B7DB;--bike:#E08A45;--run:#9CC93F;--lift:#97A0B5;--gate:#F03A56;
@@ -203,6 +204,24 @@ li.done .bt,li.done .bx{opacity:.45}
 li.done .bx .h{text-decoration:line-through}
 .kre .ckrow{font-size:13.5px;padding:6px 0;color:var(--ink2)}
 .days li .ckrow{padding:5px 0;border-top:0}
+
+/* nav */
+.nav{display:flex;gap:2px;background:var(--rule);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:50}
+.nav a{flex:1;text-align:center;background:var(--deck);color:var(--ink2);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.18em;text-transform:uppercase;padding:13px 4px;text-decoration:none}
+.nav a.on{background:var(--card);color:var(--ink);box-shadow:inset 0 -2px 0 var(--gate)}
+.nav a:hover{color:var(--ink)}
+/* eat today card */
+.eat{display:flex;gap:6px 16px;flex-wrap:wrap;align-items:baseline;background:var(--card2);border:1px solid var(--rule);padding:12px 14px;margin:14px 0 2px}
+.eat .kc{font-family:var(--disp);font-size:25px;font-weight:700}
+.eat .mac{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.eat .mt{font-family:var(--mono);font-size:11px;color:var(--ink2);width:100%;margin-top:4px}
+.pgh{background:var(--deck);padding:26px 0 18px;border-bottom:4px solid var(--gate)}
+.pgh h1{font-size:clamp(30px,8vw,54px);line-height:.95}
+.pgh .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink2)}
+.srcs{font-size:12.5px;color:var(--ink2);margin-top:26px;border-top:1px solid var(--rule);padding-top:14px}
+.srcs a{color:var(--ink2)}
+
 </style>
 </head>
 <body>
@@ -224,6 +243,8 @@ li.done .bx .h{text-decoration:line-through}
   </div>
 </header>
 
+<nav class="nav"><a class="on" href="./">Daily</a><a href="training.html">Training</a><a href="diet.html">Diet</a><a href="gym.html">Gym</a></nav>
+
 <div class="today" id="today"></div>
 
 <div id="kickoff"></div>
@@ -234,6 +255,7 @@ li.done .bx .h{text-decoration:line-through}
   <p class="lede">Every hour of all seventy days. <strong>Productive</strong> is a placeholder for whatever the work actually is. Days you edit here are saved on this device and marked with a dot; <em>reset to plan</em> puts a day back. Cooking and sleep are scheduled with the same weight as training, because on twelve hours a week they <em>are</em> training.</p>
   <div class="dstrip" id="datestrip"></div>
   <div class="dayhead"><h3 id="dtitle"></h3><div class="dmeta" id="dmeta"></div><div class="dbanner" id="dbanner"></div></div>
+  <div id="deat"></div>
   <div class="ditems" id="ditems"></div>
   <div class="ribbon" id="ribbon"></div>
   <div class="rlabels"><span>05:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
@@ -267,109 +289,6 @@ li.done .bx .h{text-decoration:line-through}
   <h2>The build</h2>
   <p class="lede">Six training days, one lighter day. Four swims a week, because frequency is what builds a stroke. Weeks after the gate are drawn faint — real, but provisional on 6 September.</p>
   <div class="lanes" id="lanes"></div>
-</section>
-
-<section class="wrap">
-  <div class="tag">Fuel &middot; maintenance until 5 October</div>
-  <h2>Eat to train</h2>
-  <p class="lede">Carbohydrate is the fuel for all three disciplines. For ten weeks it is not the enemy — under-fuelling a build is how the swim stops improving and the long rides start hurting.</p>
-  <table>
-    <thead><tr><th>Day type</th><th>Calories</th><th>Protein</th><th>Carbs</th><th>Fat</th></tr></thead>
-    <tbody>
-      <tr><td>Lighter day</td><td class="n">2,650</td><td class="n">165g</td><td class="n">280g</td><td class="n">80g</td></tr>
-      <tr><td>Normal training day</td><td class="n">3,050</td><td class="n">165g</td><td class="n">380g</td><td class="n">85g</td></tr>
-      <tr><td>Long day — Sat / Sun</td><td class="n">3,500</td><td class="n">165g</td><td class="n">480g</td><td class="n">85g</td></tr>
-      <tr><td><b>Cut phase — from 5 Oct</b></td><td class="n">2,350</td><td class="n">180g</td><td class="n">230g</td><td class="n">75g</td></tr>
-    </tbody>
-  </table>
-  <table>
-    <thead><tr><th>Session</th><th>What goes in</th></tr></thead>
-    <tbody>
-      <tr><td class="n">Under 75 min</td><td>Water only.</td></tr>
-      <tr><td class="n">75 min +</td><td>60g carbs/hr — a bottle of sports drink plus a gel or four dates.</td></tr>
-      <tr><td class="n">Long ride 2 hr +</td><td>70&ndash;90g carbs/hr, 500&ndash;750ml fluid/hr, 500&ndash;700mg sodium/hr. Texas in August is a salt problem, not just a water one.</td></tr>
-      <tr><td class="n">After anything long</td><td>Within 45 min: 40g protein + 60&ndash;80g carbs.</td></tr>
-      <tr><td class="n"><b>Race day</b></td><td>3 hr before: 600&ndash;800 kcal, low fibre. Bike: 80g carbs/hr, 700ml/hr, 700mg sodium/hr. Run: 40&ndash;60g carbs/hr from aid stations. <b>Rehearse it on every long ride from week 5.</b></td></tr>
-    </tbody>
-  </table>
-</section>
-
-<section class="wrap">
-  <div class="tag">Costco is the freezer. H-E-B is anything that spoils.</div>
-  <h2>The shopping</h2>
-  <div class="cards">
-    <div class="shop">
-      <h3>Costco &middot; every 2&ndash;4 weeks</h3>
-      <ul>
-        <li><b>Chicken breast</b> — 6.5 lb tray &times;2</li>
-        <li><b>Lean ground beef 96/4</b> — 4-pack of 1.33 lb tubes</li>
-        <li><b>Top sirloin</b> — 4&ndash;5 lb, cut into steaks and freeze separately</li>
-        <li><b>Frozen sockeye fillets</b> — individually wrapped, easiest weeknight protein you own</li>
-        <li><b>Large eggs</b>, 24-ct &times;2 — you eat 28 a week</li>
-        <li><b>Whey isolate</b>, 5 lb — ~71 servings, lasts two months</li>
-        <li><b>2% cottage cheese</b> &times;2 tubs, open one at a time</li>
-        <li>Jasmine rice 25 lb <em>(after the move)</em>, rolled oats 10 lb</li>
-        <li><b>Pitted Medjool dates</b>, 2 lb — four dates is 25g carbs, your bike fuel</li>
-        <li><b>Electrolyte drink mix</b>, 50 packets — the most important item here</li>
-        <li>Frozen berries, frozen broccoli, olive oil 2L, raw almonds, canned albacore, honey</li>
-      </ul>
-    </div>
-    <div class="shop">
-      <h3>H-E-B &middot; weekly</h3>
-      <ul>
-        <li>Baby spinach 16oz tub, bell peppers, onions, garlic, limes, romas, cucumber, cilantro</li>
-        <li><b>Mootopia milk</b> — 12g protein a cup instead of 8</li>
-        <li>Ground turkey 2 lb, deli turkey, block cheddar</li>
-        <li>Rotisserie chicken — <b>one at a time</b>, it keeps 4 days</li>
-        <li><b>Avocados</b> — two or three at different ripeness, never a six-pack</li>
-        <li>Mi Tienda corn tortillas, bakery sourdough, bagels for pre-ride</li>
-        <li>Russets 5 lb, bananas &times;2 bunches, oranges, apples</li>
-        <li>Gatorade powder, salsa</li>
-      </ul>
-    </div>
-    <div class="shop">
-      <h3>Spoilage &amp; the 20 minutes that prevent it</h3>
-      <ul>
-        <li><b>Portion the day you buy.</b> 6.5 lb of chicken becomes thirteen 8oz bags before it touches the fridge. Skip this and you bin three pounds in ten days.</li>
-        <li>Fresh chicken &amp; ground beef — <b>2 days</b>. Freeze on day zero.</li>
-        <li>Rotisserie chicken — 4 days &middot; cottage cheese — 6 &middot; spinach — 5 &middot; milk — 7</li>
-        <li>Sourdough — 4 days, or slice and freeze half</li>
-        <li>Almonds live in the freezer past two months</li>
-        <li><b>Freezer check:</b> a month of Costco meat is ~30 lb. Sharing a kitchen after 20 Aug means going every two weeks and buying half.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="wrap">
-  <div class="tag">Two days, 45 minutes each</div>
-  <h2>The lifting</h2>
-  <div class="two">
-    <div class="col">
-      <h3>Day A &middot; Tuesday</h3>
-      <div class="when">Upper &middot; compounds only</div>
-      <ul class="sched">
-        <li><span class="t">4&times;5</span><span>Bench press &mdash; 180</span></li>
-        <li><span class="t">4&times;6</span><span>Wide pull-up, weighted when easy</span></li>
-        <li><span class="t">3&times;8</span><span>Incline DB press</span></li>
-        <li><span class="t">3&times;8</span><span>Pendlay row &mdash; 115 total, log it that way</span></li>
-        <li><span class="t">3&times;15</span><span>Hanging leg raise</span></li>
-      </ul>
-      <p style="font-size:13.5px;color:var(--ink2);margin-top:12px">Lateral raises and kickbacks appeared 52 and 48 times in your log. They are not what is missing.</p>
-    </div>
-    <div class="col">
-      <h3>Day B &middot; Monday</h3>
-      <div class="when">Lower &middot; the actual gap</div>
-      <ul class="sched">
-        <li><span class="t">3&times;5</span><span>Back squat &mdash; start 135, technique first</span></li>
-        <li><span class="t">3&times;6</span><span>Romanian deadlift &mdash; 185</span></li>
-        <li><span class="t">2&times;10</span><span>Bulgarian split squat, each leg</span></li>
-        <li><span class="t">3&times;15</span><span>Standing calf raise</span></li>
-        <li><span class="t">3&times;45s</span><span>Plank</span></li>
-      </ul>
-      <p style="font-size:13.5px;color:var(--ink2);margin-top:12px">20 lower sessions in 13 months, none since 11 May, no barbell squat anywhere. This sits on Monday so it never collides with the Saturday ride.</p>
-    </div>
-  </div>
 </section>
 
 <section class="wrap">
@@ -486,6 +405,19 @@ function renderDay(){
               :eff.src==='ovr'?esc(eff.title)+' — planned override':'';
   const r=document.getElementById('rstd');
   if(r)r.onclick=()=>{delete store.edits()[iso];store.save();editing=false;renderDay()};
+
+  const DT=PLAN.fuel.day_types;
+  let ft;
+  if(idx>=68){ft=DT[3];}
+  else{
+    const long=set.some(b=>(b.t==='bike'||b.t==='run')&&dur(b)>=90);
+    const train=set.some(b=>['swim','bike','run','lift'].includes(b.t));
+    ft=long?DT[2]:(train?DT[1]:DT[0]);
+  }
+  const meals=set.filter(b=>b.t==='fuel').map(b=>`${b.a} ${b.h}`).join(' · ');
+  document.getElementById('deat').innerHTML=`<div class="eat"><span class="kc">${ft.kcal.toLocaleString()} kcal</span>`+
+    `<span class="mac">${ft.p}g protein · ${ft.c}g carbs · ${ft.f}g fat — ${ft.type}</span>`+
+    (meals?`<span class="mt">${esc(meals)}</span>`:'')+`</div>`;
 
   const items=w.days[di].items.map((x,j)=>{const[k,txt]=x.split('|');
     return ckRow(`wk:${w.n}:${wd}:${j}`,`<span class="pill ${LBL[k][0]}">${LBL[k][1]}</span>${txt}`)}).join('');

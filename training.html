@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Training — 70.3 Waco</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B1216">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230B1216'/%3E%3Crect y='84' width='100' height='16' fill='%23F03A56'/%3E%3Ctext x='50' y='60' font-family='Arial Black,sans-serif' font-size='42' font-weight='900' fill='%23fff' text-anchor='middle'%3E70%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --deck:#0B1216;--card:#121C23;--card2:#17242D;--ink:#E9EEF2;--ink2:#8FA3AE;--rule:#233340;
+  --swim:#35B7DB;--bike:#E08A45;--run:#9CC93F;--lift:#97A0B5;--gate:#F03A56;
+  --fuel:#D9AC3F;--prod:#56707F;--play:#3AA891;--class:#9D86E8;--rec:#63808C;--sleep:#2E4A5C;
+  --disp:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--deck);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);font-weight:700;margin:0;text-transform:uppercase;letter-spacing:.02em}
+:focus-visible{outline:3px solid var(--gate);outline-offset:2px}
+button{font-family:inherit}
+
+.bib{background:var(--deck);padding:32px 0 24px;border-bottom:4px solid var(--gate)}
+.bib .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink2)}
+.bib h1{font-size:clamp(40px,11vw,88px);line-height:.9;margin:10px 0 0}
+.bib h1 .sub{display:block;font-size:clamp(15px,4vw,26px);font-weight:500;letter-spacing:.14em;color:var(--ink2);margin-top:12px}
+.clock{display:flex;gap:26px;margin-top:24px;flex-wrap:wrap}
+.clock .n{font-family:var(--disp);font-size:38px;font-weight:700;line-height:1;display:block}
+.clock .l{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+.dists{display:flex;margin-top:24px;border-top:1px solid var(--rule)}
+.dists div{flex:1;padding:13px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ink2);border-right:1px solid var(--rule)}
+.dists div:last-child{border-right:0}
+.dists b{display:block;font-family:var(--disp);font-size:24px;font-weight:700;color:var(--ink)}
+.dists .sw b{color:var(--swim)}.dists .bk b{color:var(--bike)}.dists .rn b{color:var(--run)}
+
+section{padding:50px 0 6px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink2)}
+h2{font-size:clamp(25px,6vw,40px);margin:8px 0 16px;line-height:1.05}
+.lede{max-width:64ch;color:var(--ink2)}
+.lede strong{color:var(--ink)}
+
+/* today */
+.today{background:var(--card);border-bottom:1px solid var(--rule)}
+.today .inner{padding:24px 0 28px}
+.today .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gate)}
+.today h2{font-size:clamp(22px,5.5vw,30px);margin:8px 0 2px}
+.today .meta{font-family:var(--mono);font-size:12px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
+.tnote{margin:14px 0 0;font-size:14px;color:var(--ink2);border-left:3px solid var(--rule);padding-left:12px}
+
+/* date strip */
+.dstrip{display:flex;gap:4px;overflow-x:auto;padding:6px 2px 10px;margin:18px 0 4px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.dcell{flex:none;width:46px;padding:6px 0 7px;background:var(--card);border:1px solid var(--rule);color:var(--ink2);
+  cursor:pointer;text-align:center;position:relative}
+.dcell .mlab{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gate);height:11px}
+.dcell .dw{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+.dcell .dn{display:block;font-family:var(--disp);font-size:18px;font-weight:700;color:var(--ink);line-height:1.2}
+.dcell.now{border-color:var(--gate)}
+.dcell.now .dw{color:var(--gate)}
+.dcell.sel{background:var(--ink);border-color:var(--ink)}
+.dcell.sel .dn{color:var(--deck)}
+.dcell.sel .dw{color:#5c6d78}
+.dcell.mod::after{content:"";position:absolute;right:4px;top:4px;width:5px;height:5px;background:var(--class)}
+.dayhead{margin-top:14px}
+.dayhead h3{font-size:clamp(19px,4.5vw,26px)}
+.dmeta{font-family:var(--mono);font-size:11.5px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.dbanner{font-family:var(--mono);font-size:11.5px;color:var(--class);letter-spacing:.04em;margin-top:8px}
+.dbanner button{background:none;border:1px solid var(--rule);color:var(--ink2);font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;margin-left:8px;cursor:pointer}
+.ditems{margin:12px 0 4px}
+
+/* ribbon */
+.ribbon{display:flex;height:26px;margin:18px 0 4px;border:1px solid var(--rule);overflow:hidden}
+.ribbon i{display:block;height:100%}
+.rlabels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink2);letter-spacing:.08em}
+
+/* blocks */
+.blocks{list-style:none;margin:16px 0 0;padding:0;border-top:1px solid var(--rule)}
+.blocks li{display:grid;grid-template-columns:96px 6px 1fr;gap:12px;align-items:stretch;
+  border-bottom:1px solid var(--rule);background:var(--card);padding:0}
+.bt{font-family:var(--mono);font-size:12px;color:var(--ink2);padding:12px 0 12px 14px;white-space:nowrap;letter-spacing:.02em}
+.bc{width:6px}
+.bx{padding:11px 14px 12px 0}
+.bx .h{font-weight:600;font-size:15.5px}
+.bx .n{font-size:13.5px;color:var(--ink2);margin-top:2px}
+.bx .dur{font-family:var(--mono);font-size:11px;color:var(--ink2);float:right;margin-left:10px}
+li.assume .bx .h::after{content:" — assumption";font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--class);font-weight:500}
+.ebtn{float:right;background:none;border:1px solid var(--rule);color:var(--ink2);font-family:var(--mono);
+  font-size:11px;padding:3px 9px;margin-left:10px;cursor:pointer}
+.ebtn:hover{border-color:var(--ink);color:var(--ink)}
+.ef{margin-top:10px;padding:12px;background:var(--card2);border:1px solid var(--rule);display:grid;gap:8px}
+.ef .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ef label{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.ef input,.ef select{background:var(--deck);color:var(--ink);border:1px solid var(--rule);font:inherit;font-size:14px;padding:6px 8px}
+.ef input[type=time]{font-family:var(--mono)}
+.ef input.wide{flex:1;min-width:180px}
+.ef .act{background:var(--ink);color:var(--deck);border:0;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+.ef .ghost{background:none;color:var(--ink2);border:1px solid var(--rule)}
+.ef .danger{background:none;color:var(--gate);border:1px solid var(--gate)}
+.dayctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.dayctl button{background:none;border:1px dashed var(--rule);color:var(--ink2);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+.dayctl button:hover{border-color:var(--ink);color:var(--ink)}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;display:block}
+
+/* gate */
+.gatewrap{background:#070D10;padding:42px 0;margin-top:12px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2px;margin-top:24px;background:var(--rule)}
+.g{background:var(--card);padding:20px}
+.g .d{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gate);text-transform:uppercase}
+.g .y{font-family:var(--disp);font-size:34px;font-weight:700;line-height:1.05;margin:8px 0 4px}
+.g .w{font-size:14px;color:var(--ink2)}
+.gatebar{margin-top:24px;border-top:2px solid var(--gate);padding-top:15px;font-size:14px;color:var(--ink2);max-width:68ch}
+.gatebar b{color:var(--ink)}
+
+/* lanes */
+.lanes{margin-top:20px;border-top:1px solid var(--rule)}
+.lane{border-bottom:1px solid var(--rule);background:var(--card)}
+.lane.prov{background:transparent}
+.lhead{display:grid;grid-template-columns:50px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;
+  background:none;border:0;padding:15px 12px;cursor:pointer;font:inherit;color:inherit}
+.lhead:hover{background:var(--card2)}
+.num{font-family:var(--disp);font-size:28px;font-weight:700;line-height:1}
+.lane.prov .num{color:#4A5B66}
+.ltitle{font-family:var(--disp);font-size:17px;font-weight:600;text-transform:uppercase;line-height:1.1}
+.ldate{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.bars{display:flex;gap:3px;align-items:flex-end;height:32px}
+.bars i{width:9px;display:block}
+.bars .s{background:var(--swim)}.bars .b{background:var(--bike)}.bars .r{background:var(--run)}
+.chev{font-family:var(--mono);color:var(--ink2)}
+.lbody{display:none;padding:2px 12px 20px}
+.lane.open .lbody{display:block}
+.keyline{font-family:var(--mono);font-size:12px;background:var(--card2);border-left:3px solid var(--ink);padding:9px 12px;margin:0 0 12px}
+.days{list-style:none;margin:0;padding:0}
+.days li{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:8px 0;border-top:1px dotted var(--rule);font-size:15px}
+.days li:first-child{border-top:0}
+.dy{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);padding-top:3px}
+button.dy{background:none;border:0;cursor:pointer;text-align:left;padding:3px 0 0;text-decoration:underline dotted}
+button.dy:hover{color:var(--ink)}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 6px;color:#070d10;margin-right:7px;font-weight:600}
+.p-s{background:var(--swim)}.p-b{background:var(--bike)}.p-r{background:var(--run)}
+.p-l{background:var(--lift)}.p-x{background:#8A9AA3}.p-g{background:var(--gate);color:#fff}
+
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14.5px;background:var(--card)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);background:var(--card2)}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:2px;margin-top:20px;background:var(--rule)}
+.shop{background:var(--card);padding:20px}
+.shop h3{font-size:16px;margin-bottom:10px}
+.shop ul{margin:0;padding-left:17px;font-size:14.5px;color:var(--ink2)}
+.shop li{margin-bottom:5px}.shop li b{color:var(--ink);font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:20px;background:var(--rule)}
+.col{background:var(--card);padding:20px}
+.col h3{font-size:16px;margin-bottom:2px}
+.col .when{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.sched{list-style:none;margin:0;padding:0}
+.sched li{display:grid;grid-template-columns:58px 1fr;gap:10px;padding:7px 0;border-top:1px dotted var(--rule);font-size:14.5px}
+.sched li:first-child{border-top:0}
+.sched .t{font-family:var(--mono);font-size:12px;color:var(--ink2);padding-top:2px}
+.needs{background:var(--card);border:1px solid var(--rule);padding:20px;margin-top:16px}
+.needs ol{margin:10px 0 0;padding-left:20px}.needs li{margin-bottom:7px}
+footer{margin-top:52px;padding:26px 0 44px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+footer a{color:inherit}
+@media(max-width:720px){.two{grid-template-columns:1fr}.blocks li{grid-template-columns:78px 6px 1fr;gap:9px}.bt{padding-left:10px;font-size:11px}}
+.reveal{opacity:0;transform:translateY(12px)}
+.reveal.in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+@media(prefers-reduced-motion:reduce){.reveal,.reveal.in{opacity:1;transform:none;transition:none}}
+
+/* check-off */
+.ckrow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px dotted var(--rule);cursor:pointer;font-size:15px}
+.ckrow:first-of-type{border-top:0}
+.ck{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--gate);cursor:pointer}
+.ctxt{flex:1;min-width:0}
+.ckrow.done .ctxt{opacity:.45;text-decoration:line-through}
+.ckrow .rmv{flex:none;background:none;border:0;color:var(--ink2);font-size:17px;cursor:pointer;padding:0 4px;line-height:1}
+.cnt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink2);border:1px solid var(--rule);padding:2px 8px;white-space:nowrap}
+.addbtn{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:none;
+  border:1px dashed var(--rule);color:var(--ink2);padding:8px 14px;margin-top:12px;cursor:pointer}
+.addbtn:hover{border-color:var(--ink);color:var(--ink)}
+.bck{float:right;margin:2px 0 0 10px}
+li.done .bt,li.done .bx{opacity:.45}
+li.done .bx .h{text-decoration:line-through}
+.kre .ckrow{font-size:13.5px;padding:6px 0;color:var(--ink2)}
+.days li .ckrow{padding:5px 0;border-top:0}
+
+/* nav */
+.nav{display:flex;gap:2px;background:var(--rule);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:50}
+.nav a{flex:1;text-align:center;background:var(--deck);color:var(--ink2);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.18em;text-transform:uppercase;padding:13px 4px;text-decoration:none}
+.nav a.on{background:var(--card);color:var(--ink);box-shadow:inset 0 -2px 0 var(--gate)}
+.nav a:hover{color:var(--ink)}
+/* eat today card */
+.eat{display:flex;gap:6px 16px;flex-wrap:wrap;align-items:baseline;background:var(--card2);border:1px solid var(--rule);padding:12px 14px;margin:14px 0 2px}
+.eat .kc{font-family:var(--disp);font-size:25px;font-weight:700}
+.eat .mac{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.eat .mt{font-family:var(--mono);font-size:11px;color:var(--ink2);width:100%;margin-top:4px}
+.pgh{background:var(--deck);padding:26px 0 18px;border-bottom:4px solid var(--gate)}
+.pgh h1{font-size:clamp(30px,8vw,54px);line-height:.95}
+.pgh .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink2)}
+.srcs{font-size:12.5px;color:var(--ink2);margin-top:26px;border-top:1px solid var(--rule);padding-top:14px}
+.srcs a{color:var(--ink2)}
+
+</style>
+</head>
+<body>
+
+<header class="pgh">
+  <div class="wrap">
+    <div class="eyebrow">The regime &middot; 70.3 Waco &middot; 4 Oct 2026</div>
+    <h1>Training</h1>
+  </div>
+</header>
+
+<nav class="nav"><a href="./">Daily</a><a class="on" href="training.html">Training</a><a href="diet.html">Diet</a><a href="gym.html">Gym</a></nav>
+
+<section class="wrap">
+  <div class="tag">The week &middot; both phases</div>
+  <h2>What a week is</h2>
+  <p class="lede">Twelve-ish hours. Four swims because <strong>frequency is what builds a stroke</strong>, two rides because the bike is a volume problem, two or three runs because the run is already in you, two lifts because more than that steals recovery from the sport that has a gate on it.</p>
+  <table>
+    <thead><tr><th>Session</th><th>When</th><th>Why then</th></tr></thead>
+    <tbody>
+      <tr><td><b>Swim ×4</b> — Tue, Thu, Fri, Sun</td><td class="n">08:00</td><td>Morning, fresh, before the day eats you. Technique beats effort until the 30 Aug gate.</td></tr>
+      <tr><td><b>Long ride</b> — weekend</td><td class="n">06:00</td><td>Texas in August. Every 30 minutes later at the start is ridden back in 95°+.</td></tr>
+      <tr><td><b>Run off the bike</b></td><td class="n">straight after</td><td>15→30 min. The legs learn the change of sport while rides are still short.</td></tr>
+      <tr><td><b>Long run</b> — weekend</td><td class="n">early or 19:15+</td><td>Morning when possible; evening only when the day forces it, after the heat breaks.</td></tr>
+      <tr><td><b>Lower lift</b> — Monday</td><td class="n">~16:00</td><td>Sits on Monday so squat soreness never lands on the weekend long ride.</td></tr>
+      <tr><td><b>Upper lift</b> — Tuesday</td><td class="n">~16:00</td><td>Full program on the <a href="gym.html" style="color:inherit">Gym page</a>.</td></tr>
+      <tr><td><b>Soccer / golf</b></td><td class="n">as they fall</td><td>Soccer is the hard run of its week. Golf is 4–5 miles of easy aerobic work — walk it.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="wrap">
+  <div class="tag">The eating clock &middot; timing, not just totals</div>
+  <h2>When to eat</h2>
+  <p class="lede">Daily targets live on the <a href="diet.html" style="color:inherit">Diet page</a> and on every date of the <a href="./" style="color:inherit">Daily view</a>. Timing is the other half: the same calories placed badly train worse and recover slower. This is the consensus position of the sports-nutrition literature, sized to you at ~73 kg.</p>
+  <table>
+    <thead><tr><th>Moment</th><th>What</th><th>The reasoning</th></tr></thead>
+    <tbody>
+      <tr><td class="n"><b>1–4 h before</b> a hard session</td><td>1–4 g/kg carbs + 20–30g protein. Practically: rice + chicken 3h out, or oats + whey 90 min out.</td><td>Tops off glycogen; protein before ≈ protein after for muscle protein synthesis.</td></tr>
+      <tr><td class="n"><b>15–60 min before</b> morning swims</td><td>Banana + 20g whey + coffee. Light — not a full stomach.</td><td>You train fasted-ish otherwise; a small feed protects the session without sloshing.</td></tr>
+      <tr><td class="n"><b>During, under 75 min</b></td><td>Water only.</td><td>Fuelling short sessions just adds calories you don't need.</td></tr>
+      <tr><td class="n"><b>During, 75 min +</b></td><td>60g carbs/hr — bottle of sports drink + a gel or four dates.</td><td>30–60g/hr is the evidence-backed range for >60–70 min efforts; you're at the top of it because the bike is your growth sport.</td></tr>
+      <tr><td class="n"><b>During, rides 2 hr +</b></td><td>70–90g carbs/hr, 500–750ml fluid/hr, 500–700mg sodium/hr.</td><td>August in Texas is a salt problem, not just a water one. Practise race-gut from week 5.</td></tr>
+      <tr><td class="n"><b>Within 45 min after</b> anything long</td><td>40g protein + 60–80g carbs. Shake + banana counts.</td><td>Glycogen re-synthesis is fastest in the first 2 h; it matters because your next session is always &lt;24 h away.</td></tr>
+      <tr><td class="n"><b>Every 3–4 h</b></td><td>A real feed: 35–45g protein each, 4–5 a day.</td><td>165g/day split evenly beats the same grams in two meals for muscle retention.</td></tr>
+      <tr><td class="n"><b>Pre-bed</b></td><td>Cottage cheese or milk-based feed.</td><td>Slow casein protein overnight; also the easiest feed to hit when the day ran long.</td></tr>
+      <tr><td class="n"><b>Race morning</b></td><td>600–800 kcal, low fibre, 3 h before the 06:40 start. Then 80g/hr on the bike, 40–60g/hr on the run.</td><td>Rehearsed on every long ride from week 5 — nothing new on race day.</td></tr>
+    </tbody>
+  </table>
+  <p class="srcs">Grounding: <a href="https://www.tandfonline.com/doi/full/10.1186/s12970-017-0189-4">ISSN position stand — nutrient timing (2017)</a> &middot; <a href="https://link.springer.com/article/10.1186/1550-2783-5-17">ISSN nutrient timing (2008)</a>. Numbers are scaled to 162 lb and this plan's session lengths; the times are already wired into every day's schedule on the Daily page.</p>
+</section>
+
+<section class="wrap">
+  <div class="tag">Rules that outrank motivation</div>
+  <h2>Hard lines</h2>
+  <div class="needs">
+    <ol>
+      <li><b>8 hours of sleep</b> is a training session. The two short nights the plan tolerates (late Fridays) are scheduled, not accidents.</li>
+      <li><b>The swim gate is dates, not vibes:</b> 800 yd by 30 Aug, 1,500 yd by 6 Sep, open water 13 Sep. Miss the first → buy coaching that week.</li>
+      <li><b>No cutting before 5 October.</b> Maintenance carbs are what make the build absorbable. The six-pack is a December outcome.</li>
+      <li><b>Nothing new on race day</b> — fuel, kit, pacing all rehearsed from week 5.</li>
+    </ol>
+  </div>
+</section>
+
+<footer class="wrap">
+  Gate 6 September &middot; race 4 October &middot; fallback Galveston 4 April 2027
+</footer>
+</body>
+</html>

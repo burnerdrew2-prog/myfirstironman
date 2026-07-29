@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diet — 70.3 Waco</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B1216">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230B1216'/%3E%3Crect y='84' width='100' height='16' fill='%23F03A56'/%3E%3Ctext x='50' y='60' font-family='Arial Black,sans-serif' font-size='42' font-weight='900' fill='%23fff' text-anchor='middle'%3E70%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --deck:#0B1216;--card:#121C23;--card2:#17242D;--ink:#E9EEF2;--ink2:#8FA3AE;--rule:#233340;
+  --swim:#35B7DB;--bike:#E08A45;--run:#9CC93F;--lift:#97A0B5;--gate:#F03A56;
+  --fuel:#D9AC3F;--prod:#56707F;--play:#3AA891;--class:#9D86E8;--rec:#63808C;--sleep:#2E4A5C;
+  --disp:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--deck);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);font-weight:700;margin:0;text-transform:uppercase;letter-spacing:.02em}
+:focus-visible{outline:3px solid var(--gate);outline-offset:2px}
+button{font-family:inherit}
+
+.bib{background:var(--deck);padding:32px 0 24px;border-bottom:4px solid var(--gate)}
+.bib .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink2)}
+.bib h1{font-size:clamp(40px,11vw,88px);line-height:.9;margin:10px 0 0}
+.bib h1 .sub{display:block;font-size:clamp(15px,4vw,26px);font-weight:500;letter-spacing:.14em;color:var(--ink2);margin-top:12px}
+.clock{display:flex;gap:26px;margin-top:24px;flex-wrap:wrap}
+.clock .n{font-family:var(--disp);font-size:38px;font-weight:700;line-height:1;display:block}
+.clock .l{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+.dists{display:flex;margin-top:24px;border-top:1px solid var(--rule)}
+.dists div{flex:1;padding:13px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ink2);border-right:1px solid var(--rule)}
+.dists div:last-child{border-right:0}
+.dists b{display:block;font-family:var(--disp);font-size:24px;font-weight:700;color:var(--ink)}
+.dists .sw b{color:var(--swim)}.dists .bk b{color:var(--bike)}.dists .rn b{color:var(--run)}
+
+section{padding:50px 0 6px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink2)}
+h2{font-size:clamp(25px,6vw,40px);margin:8px 0 16px;line-height:1.05}
+.lede{max-width:64ch;color:var(--ink2)}
+.lede strong{color:var(--ink)}
+
+/* today */
+.today{background:var(--card);border-bottom:1px solid var(--rule)}
+.today .inner{padding:24px 0 28px}
+.today .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gate)}
+.today h2{font-size:clamp(22px,5.5vw,30px);margin:8px 0 2px}
+.today .meta{font-family:var(--mono);font-size:12px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
+.tnote{margin:14px 0 0;font-size:14px;color:var(--ink2);border-left:3px solid var(--rule);padding-left:12px}
+
+/* date strip */
+.dstrip{display:flex;gap:4px;overflow-x:auto;padding:6px 2px 10px;margin:18px 0 4px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.dcell{flex:none;width:46px;padding:6px 0 7px;background:var(--card);border:1px solid var(--rule);color:var(--ink2);
+  cursor:pointer;text-align:center;position:relative}
+.dcell .mlab{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gate);height:11px}
+.dcell .dw{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+.dcell .dn{display:block;font-family:var(--disp);font-size:18px;font-weight:700;color:var(--ink);line-height:1.2}
+.dcell.now{border-color:var(--gate)}
+.dcell.now .dw{color:var(--gate)}
+.dcell.sel{background:var(--ink);border-color:var(--ink)}
+.dcell.sel .dn{color:var(--deck)}
+.dcell.sel .dw{color:#5c6d78}
+.dcell.mod::after{content:"";position:absolute;right:4px;top:4px;width:5px;height:5px;background:var(--class)}
+.dayhead{margin-top:14px}
+.dayhead h3{font-size:clamp(19px,4.5vw,26px)}
+.dmeta{font-family:var(--mono);font-size:11.5px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.dbanner{font-family:var(--mono);font-size:11.5px;color:var(--class);letter-spacing:.04em;margin-top:8px}
+.dbanner button{background:none;border:1px solid var(--rule);color:var(--ink2);font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;margin-left:8px;cursor:pointer}
+.ditems{margin:12px 0 4px}
+
+/* ribbon */
+.ribbon{display:flex;height:26px;margin:18px 0 4px;border:1px solid var(--rule);overflow:hidden}
+.ribbon i{display:block;height:100%}
+.rlabels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink2);letter-spacing:.08em}
+
+/* blocks */
+.blocks{list-style:none;margin:16px 0 0;padding:0;border-top:1px solid var(--rule)}
+.blocks li{display:grid;grid-template-columns:96px 6px 1fr;gap:12px;align-items:stretch;
+  border-bottom:1px solid var(--rule);background:var(--card);padding:0}
+.bt{font-family:var(--mono);font-size:12px;color:var(--ink2);padding:12px 0 12px 14px;white-space:nowrap;letter-spacing:.02em}
+.bc{width:6px}
+.bx{padding:11px 14px 12px 0}
+.bx .h{font-weight:600;font-size:15.5px}
+.bx .n{font-size:13.5px;color:var(--ink2);margin-top:2px}
+.bx .dur{font-family:var(--mono);font-size:11px;color:var(--ink2);float:right;margin-left:10px}
+li.assume .bx .h::after{content:" — assumption";font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--class);font-weight:500}
+.ebtn{float:right;background:none;border:1px solid var(--rule);color:var(--ink2);font-family:var(--mono);
+  font-size:11px;padding:3px 9px;margin-left:10px;cursor:pointer}
+.ebtn:hover{border-color:var(--ink);color:var(--ink)}
+.ef{margin-top:10px;padding:12px;background:var(--card2);border:1px solid var(--rule);display:grid;gap:8px}
+.ef .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ef label{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.ef input,.ef select{background:var(--deck);color:var(--ink);border:1px solid var(--rule);font:inherit;font-size:14px;padding:6px 8px}
+.ef input[type=time]{font-family:var(--mono)}
+.ef input.wide{flex:1;min-width:180px}
+.ef .act{background:var(--ink);color:var(--deck);border:0;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+.ef .ghost{background:none;color:var(--ink2);border:1px solid var(--rule)}
+.ef .danger{background:none;color:var(--gate);border:1px solid var(--gate)}
+.dayctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.dayctl button{background:none;border:1px dashed var(--rule);color:var(--ink2);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+.dayctl button:hover{border-color:var(--ink);color:var(--ink)}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;display:block}
+
+/* gate */
+.gatewrap{background:#070D10;padding:42px 0;margin-top:12px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2px;margin-top:24px;background:var(--rule)}
+.g{background:var(--card);padding:20px}
+.g .d{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gate);text-transform:uppercase}
+.g .y{font-family:var(--disp);font-size:34px;font-weight:700;line-height:1.05;margin:8px 0 4px}
+.g .w{font-size:14px;color:var(--ink2)}
+.gatebar{margin-top:24px;border-top:2px solid var(--gate);padding-top:15px;font-size:14px;color:var(--ink2);max-width:68ch}
+.gatebar b{color:var(--ink)}
+
+/* lanes */
+.lanes{margin-top:20px;border-top:1px solid var(--rule)}
+.lane{border-bottom:1px solid var(--rule);background:var(--card)}
+.lane.prov{background:transparent}
+.lhead{display:grid;grid-template-columns:50px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;
+  background:none;border:0;padding:15px 12px;cursor:pointer;font:inherit;color:inherit}
+.lhead:hover{background:var(--card2)}
+.num{font-family:var(--disp);font-size:28px;font-weight:700;line-height:1}
+.lane.prov .num{color:#4A5B66}
+.ltitle{font-family:var(--disp);font-size:17px;font-weight:600;text-transform:uppercase;line-height:1.1}
+.ldate{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.bars{display:flex;gap:3px;align-items:flex-end;height:32px}
+.bars i{width:9px;display:block}
+.bars .s{background:var(--swim)}.bars .b{background:var(--bike)}.bars .r{background:var(--run)}
+.chev{font-family:var(--mono);color:var(--ink2)}
+.lbody{display:none;padding:2px 12px 20px}
+.lane.open .lbody{display:block}
+.keyline{font-family:var(--mono);font-size:12px;background:var(--card2);border-left:3px solid var(--ink);padding:9px 12px;margin:0 0 12px}
+.days{list-style:none;margin:0;padding:0}
+.days li{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:8px 0;border-top:1px dotted var(--rule);font-size:15px}
+.days li:first-child{border-top:0}
+.dy{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);padding-top:3px}
+button.dy{background:none;border:0;cursor:pointer;text-align:left;padding:3px 0 0;text-decoration:underline dotted}
+button.dy:hover{color:var(--ink)}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 6px;color:#070d10;margin-right:7px;font-weight:600}
+.p-s{background:var(--swim)}.p-b{background:var(--bike)}.p-r{background:var(--run)}
+.p-l{background:var(--lift)}.p-x{background:#8A9AA3}.p-g{background:var(--gate);color:#fff}
+
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14.5px;background:var(--card)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);background:var(--card2)}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:2px;margin-top:20px;background:var(--rule)}
+.shop{background:var(--card);padding:20px}
+.shop h3{font-size:16px;margin-bottom:10px}
+.shop ul{margin:0;padding-left:17px;font-size:14.5px;color:var(--ink2)}
+.shop li{margin-bottom:5px}.shop li b{color:var(--ink);font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:20px;background:var(--rule)}
+.col{background:var(--card);padding:20px}
+.col h3{font-size:16px;margin-bottom:2px}
+.col .when{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.sched{list-style:none;margin:0;padding:0}
+.sched li{display:grid;grid-template-columns:58px 1fr;gap:10px;padding:7px 0;border-top:1px dotted var(--rule);font-size:14.5px}
+.sched li:first-child{border-top:0}
+.sched .t{font-family:var(--mono);font-size:12px;color:var(--ink2);padding-top:2px}
+.needs{background:var(--card);border:1px solid var(--rule);padding:20px;margin-top:16px}
+.needs ol{margin:10px 0 0;padding-left:20px}.needs li{margin-bottom:7px}
+footer{margin-top:52px;padding:26px 0 44px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+footer a{color:inherit}
+@media(max-width:720px){.two{grid-template-columns:1fr}.blocks li{grid-template-columns:78px 6px 1fr;gap:9px}.bt{padding-left:10px;font-size:11px}}
+.reveal{opacity:0;transform:translateY(12px)}
+.reveal.in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+@media(prefers-reduced-motion:reduce){.reveal,.reveal.in{opacity:1;transform:none;transition:none}}
+
+/* check-off */
+.ckrow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px dotted var(--rule);cursor:pointer;font-size:15px}
+.ckrow:first-of-type{border-top:0}
+.ck{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--gate);cursor:pointer}
+.ctxt{flex:1;min-width:0}
+.ckrow.done .ctxt{opacity:.45;text-decoration:line-through}
+.ckrow .rmv{flex:none;background:none;border:0;color:var(--ink2);font-size:17px;cursor:pointer;padding:0 4px;line-height:1}
+.cnt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink2);border:1px solid var(--rule);padding:2px 8px;white-space:nowrap}
+.addbtn{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:none;
+  border:1px dashed var(--rule);color:var(--ink2);padding:8px 14px;margin-top:12px;cursor:pointer}
+.addbtn:hover{border-color:var(--ink);color:var(--ink)}
+.bck{float:right;margin:2px 0 0 10px}
+li.done .bt,li.done .bx{opacity:.45}
+li.done .bx .h{text-decoration:line-through}
+.kre .ckrow{font-size:13.5px;padding:6px 0;color:var(--ink2)}
+.days li .ckrow{padding:5px 0;border-top:0}
+
+/* nav */
+.nav{display:flex;gap:2px;background:var(--rule);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:50}
+.nav a{flex:1;text-align:center;background:var(--deck);color:var(--ink2);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.18em;text-transform:uppercase;padding:13px 4px;text-decoration:none}
+.nav a.on{background:var(--card);color:var(--ink);box-shadow:inset 0 -2px 0 var(--gate)}
+.nav a:hover{color:var(--ink)}
+/* eat today card */
+.eat{display:flex;gap:6px 16px;flex-wrap:wrap;align-items:baseline;background:var(--card2);border:1px solid var(--rule);padding:12px 14px;margin:14px 0 2px}
+.eat .kc{font-family:var(--disp);font-size:25px;font-weight:700}
+.eat .mac{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.eat .mt{font-family:var(--mono);font-size:11px;color:var(--ink2);width:100%;margin-top:4px}
+.pgh{background:var(--deck);padding:26px 0 18px;border-bottom:4px solid var(--gate)}
+.pgh h1{font-size:clamp(30px,8vw,54px);line-height:.95}
+.pgh .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink2)}
+.srcs{font-size:12.5px;color:var(--ink2);margin-top:26px;border-top:1px solid var(--rule);padding-top:14px}
+.srcs a{color:var(--ink2)}
+
+</style>
+</head>
+<body>
+
+<header class="pgh">
+  <div class="wrap">
+    <div class="eyebrow">The regime &middot; 70.3 Waco &middot; 4 Oct 2026</div>
+    <h1>Diet</h1>
+  </div>
+</header>
+
+<nav class="nav"><a href="./">Daily</a><a href="training.html">Training</a><a class="on" href="diet.html">Diet</a><a href="gym.html">Gym</a></nav>
+
+<section class="wrap">
+  <div class="tag">Targets &middot; maintenance until 5 October</div>
+  <h2>The numbers</h2>
+  <p class="lede">Carbohydrate is the fuel for all three disciplines. For ten weeks it is not the enemy — under-fuelling a build is how the swim stops improving and the long rides start hurting. Which day type today is shows automatically on the <a href="./" style="color:inherit">Daily page</a>.</p>
+  <table>
+    <thead><tr><th>Day type</th><th>Calories</th><th>Protein</th><th>Carbs</th><th>Fat</th></tr></thead>
+    <tbody>
+      <tr><td>Lighter day</td><td class="n">2,650</td><td class="n">165g</td><td class="n">280g</td><td class="n">80g</td></tr>
+      <tr><td>Normal training day</td><td class="n">3,050</td><td class="n">165g</td><td class="n">380g</td><td class="n">85g</td></tr>
+      <tr><td>Long day</td><td class="n">3,500</td><td class="n">165g</td><td class="n">480g</td><td class="n">85g</td></tr>
+      <tr><td><b>Cut phase — from 5 Oct</b></td><td class="n">2,350</td><td class="n">180g</td><td class="n">230g</td><td class="n">75g</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="wrap">
+  <div class="tag">Researched &middot; protein per dollar, July 2026 pricing</div>
+  <h2>Where the protein comes from</h2>
+  <p class="lede">Ranked by <strong>grams of protein per dollar</strong> at Costco and H-E-B sizes. Prices drift week to week — the <em>ranking</em> is what to shop from. Anything above ~25g/$ is elite; jerky and protein bars sit under 10g/$, which is why they're not in this plan.</p>
+  <table>
+    <thead><tr><th>Item</th><th>Store &middot; size</th><th>~Price</th><th>Protein/$</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td><b>Chicken thighs, bone-in</b></td><td>H-E-B family pack</td><td class="n">~$1.30/lb</td><td class="n">~47g/$</td><td>Cheapest real protein in Texas. Roast a tray alongside the breast batch.</td></tr>
+      <tr><td><b>Cottage cheese 2%</b></td><td>Costco 2×3 lb</td><td class="n">~$5/2 lb</td><td class="n">~40g/$</td><td>Pre-bed feed. ~25g per cup for ~60¢.</td></tr>
+      <tr><td><b>Black beans, canned</b></td><td>H-E-B store brand</td><td class="n">~80¢/can</td><td class="n">~35g/$</td><td>Protein <em>and</em> carbs. Into taco bowls.</td></tr>
+      <tr><td><b>Whey isolate</b></td><td>Costco 5 lb</td><td class="n">~$55</td><td class="n">~32g/$</td><td>~71 servings of 25g. The floor under every training day.</td></tr>
+      <tr><td><b>Milk (Mootopia)</b></td><td>H-E-B</td><td class="n">~$4/half-gal</td><td class="n">~28g/$</td><td>12g/cup vs 8 in regular milk. Drink your recovery carbs.</td></tr>
+      <tr><td><b>Greek yogurt, nonfat</b></td><td>Costco 48 oz</td><td class="n">~$4.89</td><td class="n">~28g/$</td><td>Kirkland tub, ~136g protein per tub.</td></tr>
+      <tr><td><b>Chicken tenderloin / breast</b></td><td>Costco 6–6.5 lb</td><td class="n">~$22</td><td class="n">~25g/$</td><td>23g per 4 oz. The batch-cook backbone; portion day-of.</td></tr>
+      <tr><td><b>Canned tuna</b></td><td>Costco 12-pack</td><td class="n">~$14</td><td class="n">~24g/$</td><td>25–28g/can, zero prep. Cap ~4 cans/week (mercury).</td></tr>
+      <tr><td><b>Eggs</b></td><td>Costco 24-ct</td><td class="n">~$8.49</td><td class="n">~17g/$</td><td>Not the cheapest anymore, but the most useful. You eat 28/wk.</td></tr>
+      <tr><td><b>96/4 ground beef</b></td><td>Costco 4-pack</td><td class="n">~$5.50/lb</td><td class="n">~16g/$</td><td>Worth it: lean, fast, taco-bowl engine.</td></tr>
+    </tbody>
+  </table>
+  <p class="srcs">Sources:
+    <a href="https://www.eatlikenoone.com/chicken-prices-at-costco.htm">Costco chicken prices 2026</a> &middot;
+    <a href="https://www.cheapism.com/high-protein-costco-items/">Costco high-protein staples</a> &middot;
+    <a href="https://app.warehouserunner.com/costco/1956023-kirkland-signature-nonfat-greek-yogurt-48-oz">Kirkland nonfat Greek 48 oz</a> &middot;
+    <a href="https://warehousewanderer.com/costco-egg-prices/">Costco egg prices</a> &middot;
+    <a href="https://grabguides.com/blog/protein-per-dollar-cheapest-sources">protein-per-dollar rankings 2026</a> &middot;
+    <a href="https://nutrola.app/en/blog/every-grocery-store-protein-source-ranked-cost-per-gram">cost per gram ranked</a>
+  </p>
+</section>
+
+<section class="wrap">
+  <div class="tag">Skip list &middot; where protein money dies</div>
+  <h2>Don't buy</h2>
+  <div class="needs">
+    <ol>
+      <li><b>Jerky and meat sticks</b> — ~6–9g protein per dollar. A fifth of chicken thighs.</li>
+      <li><b>Protein bars and RTD shakes</b> — you own a 5 lb bag of whey; a bar is whey with a 4× markup and candy glaze.</li>
+      <li><b>Pre-cut fruit, snack packs, cart drinks at the course</b> — convenience taxes, all of them.</li>
+      <li><b>A second chicken tray before 20 August</b> — the freezer has to be empty for the move.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag">Costco is the freezer. H-E-B is anything that spoils.</div>
+  <h2>The standing lists</h2>
+  <div class="cards">
+    <div class="shop">
+      <h3>Costco &middot; every 2&ndash;4 weeks</h3>
+      <ul>
+        <li><b>Chicken breast / tenderloin</b> — 6.5 lb tray (×2 only after the move)</li>
+        <li><b>Lean ground beef 96/4</b> — 4-pack of 1.33 lb tubes</li>
+        <li><b>Top sirloin</b> — 4&ndash;5 lb, cut into steaks and freeze separately</li>
+        <li><b>Frozen sockeye fillets</b> — individually wrapped</li>
+        <li><b>Large eggs</b>, 24-ct &times;2 — you eat 28 a week</li>
+        <li><b>Whey isolate</b>, 5 lb &middot; <b>2% cottage cheese</b> &times;2 &middot; <b>nonfat Greek yogurt</b> 48 oz</li>
+        <li>Jasmine rice 25 lb <em>(after the move)</em>, rolled oats 10 lb</li>
+        <li><b>Pitted Medjool dates</b>, 2 lb — four dates is 25g carbs, your bike fuel</li>
+        <li><b>Electrolyte drink mix</b>, 50 packets — the most important item here</li>
+        <li>Frozen berries, frozen broccoli, olive oil, raw almonds, canned albacore, honey</li>
+      </ul>
+    </div>
+    <div class="shop">
+      <h3>H-E-B &middot; weekly</h3>
+      <ul>
+        <li><b>Chicken thighs</b> family pack — the 47g/$ champion, roast with the batch</li>
+        <li>Baby spinach 16oz, bell peppers, onions, garlic, limes, romas, cucumber, cilantro</li>
+        <li><b>Mootopia milk</b> — 12g protein a cup instead of 8</li>
+        <li>Black beans &times;4, ground turkey 2 lb, deli turkey, block cheddar</li>
+        <li>Rotisserie chicken — <b>one at a time</b>, it keeps 4 days</li>
+        <li><b>Avocados</b> — two or three at different ripeness, never a six-pack</li>
+        <li>Mi Tienda corn tortillas, bakery sourdough, bagels for pre-ride</li>
+        <li>Russets 5 lb, bananas &times;2 bunches, oranges, apples, Gatorade powder, salsa</li>
+      </ul>
+    </div>
+    <div class="shop">
+      <h3>Spoilage &amp; the 20 minutes that prevent it</h3>
+      <ul>
+        <li><b>Portion the day you buy.</b> 6.5 lb of chicken becomes thirteen 8oz bags before it touches the fridge.</li>
+        <li>Fresh chicken &amp; ground beef — <b>2 days</b>. Freeze on day zero.</li>
+        <li>Rotisserie — 4 days &middot; cottage cheese — 6 &middot; spinach — 5 &middot; milk — 7</li>
+        <li>Sourdough — 4 days, or slice and freeze half</li>
+        <li><b>Freezer check:</b> a month of Costco meat is ~30 lb. After 20 Aug: go every two weeks, buy half.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag">The weekly batch &middot; 90 minutes, one oven, two burners</div>
+  <h2>The cooking</h2>
+  <div class="cards">
+    <div class="shop kre">
+      <h3>Sheet-pan chicken + broccoli</h3>
+      <div class="when">4 lunches &middot; 25 min, mostly oven</div>
+      <ul>
+        <li>425°F. Pat 2.5 lb breasts (or thighs) dry, oil, salt, smoked paprika, garlic powder.</li>
+        <li>20–22 min to 160°F internal, rest 5 under foil. Don't eyeball it.</li>
+        <li>Last 15 min: frozen broccoli on a second tray, oil + salt.</li>
+        <li>Slice, box with rice. Four ~10 oz portions.</li>
+      </ul>
+    </div>
+    <div class="shop kre">
+      <h3>Taco beef</h3>
+      <div class="when">5 servings &middot; 20 min, one pan</div>
+      <ul>
+        <li>Widest pan, high heat. Brown 2.66 lb 96/4 in two batches — crowd it and it steams grey.</li>
+        <li>One diced onion in with batch two; a can of black beans, drained, at the end.</li>
+        <li>Last 2 min: 2 tsp cumin, 2 tsp chili powder, 1 tsp garlic powder, 1½ tsp salt, splash of water.</li>
+        <li>Tacos and rice bowls through the week.</li>
+      </ul>
+    </div>
+    <div class="shop kre">
+      <h3>The rice pot</h3>
+      <div class="when">~11 cups cooked &middot; hands-off</div>
+      <ul>
+        <li>4 cups jasmine, rinsed. 6 cups water, big pinch of salt.</li>
+        <li>Boil → lid on, low, 12 min → off heat 10 min. No peeking.</li>
+        <li>Cool flat, one container. 60-second microwave portions — the carb targets live here.</li>
+      </ul>
+    </div>
+    <div class="shop kre">
+      <h3>While the oven runs</h3>
+      <div class="when">10 min of parallel work</div>
+      <ul>
+        <li>Hard-boil 8 eggs: rolling boil, 10 min, ice water.</li>
+        <li>Overnight oats ×3 jars: 80g oats, 1 scoop whey, 240ml milk, honey.</li>
+        <li>Bag dates in fours — ride and golf pockets.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  Maintenance until 5 Oct &middot; cut phase after &middot; prices researched 28 Jul 2026, rankings over prices
+</footer>
+</body>
+</html>
