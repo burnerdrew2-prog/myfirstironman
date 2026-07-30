@@ -247,13 +247,21 @@ li.done .bx .h{text-decoration:line-through}
 .pgh .eyebrow{font-size:13px;font-weight:600;color:var(--ink2)}
 .srcs{font-size:12.5px;color:var(--ink2);margin-top:26px;padding-top:14px;border-top:1px solid rgba(0,0,0,.08)}
 
+/* simple/full segmented control */
+.vseg{display:inline-flex;background:#E8E8ED;border-radius:980px;padding:2px;margin-top:14px}
+.vseg button{border:0;background:none;border-radius:980px;font-size:13px;font-weight:500;color:var(--ink2);padding:6px 16px;cursor:pointer}
+.vseg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12);font-weight:600}
+.blocks li.mini .bx .h{font-weight:500;color:var(--ink2);font-size:13px}
+.blocks li.mini .bt{padding:8px 0 8px 16px}
+.blocks li.mini .bx{padding:7px 16px 8px 0}
+
 </style>
 </head>
 <body>
 
 <header class="bib">
   <div class="wrap">
-    <div class="eyebrow">The regime &middot; Drew &middot; v5 &middot; 28 Jul 2026</div>
+    <div class="eyebrow">Drew &middot; first 70.3</div>
     <h1>70.3 Waco<span class="sub">Sunday 4 October 2026 &middot; Brazos River</span></h1>
     <div class="clock">
       <div><span class="n" id="cd">—</span><span class="l">days out</span></div>
@@ -270,23 +278,20 @@ li.done .bx .h{text-decoration:line-through}
 
 <nav class="nav"><a class="on" href="./">Daily</a><a href="training.html">Training</a><a href="diet.html">Diet</a><a href="gym.html">Gym</a></nav>
 
-<div class="today" id="today"></div>
-
-<div id="kickoff"></div>
-
 <section class="wrap" id="dayview">
-  <div class="tag">Every day, 28 Jul &rarr; 5 Oct &middot; tap a date</div>
+  <div class="tag">28 Jul &rarr; 5 Oct</div>
   <h2>The days</h2>
-  <p class="lede">Every hour of all seventy days. <strong>Productive</strong> is a placeholder for whatever the work actually is. Days you edit here are saved on this device and marked with a dot; <em>reset to plan</em> puts a day back. Cooking and sleep are scheduled with the same weight as training, because on twelve hours a week they <em>are</em> training.</p>
+  <p class="lede">Tap a date. <strong>Simple</strong> shows what you do and what you eat. <strong>Full day</strong> shows every hour and lets you edit it.</p>
   <div class="dstrip" id="datestrip"></div>
   <div class="dayhead"><h3 id="dtitle"></h3><div class="dmeta" id="dmeta"></div><div class="dbanner" id="dbanner"></div></div>
+  <div class="vseg" id="vseg"></div>
   <div id="deat"></div>
   <div class="ditems" id="ditems"></div>
   <div class="ribbon" id="ribbon"></div>
   <div class="rlabels"><span>05:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
   <ul class="blocks" id="blocks"></ul>
   <div class="dayctl" id="dayctl"></div>
-  <div class="legend">
+  <div class="legend" id="legend">
     <span><i style="background:var(--swim)"></i>Swim</span><span><i style="background:var(--bike)"></i>Bike</span>
     <span><i style="background:var(--run)"></i>Run</span><span><i style="background:var(--lift)"></i>Lift</span>
     <span><i style="background:var(--play)"></i>Golf / soccer</span><span><i style="background:var(--fuel)"></i>Fuel &amp; cooking</span>
@@ -294,6 +299,8 @@ li.done .bx .h{text-decoration:line-through}
     <span><i style="background:var(--rec)"></i>Recovery &amp; admin</span><span><i style="background:var(--sleep)"></i>Sleep</span>
   </div>
 </section>
+
+<div id="kickoff"></div>
 
 <div class="gatewrap">
   <div class="wrap">
@@ -363,6 +370,7 @@ const phaseOf=d=>(MOVE&&d>=MOVE)?'sat':'atx';
 const OVR=PLAN.overrides||{};
 let selDate=IN_PLAN?t0:(IDX<0?START:addDays(START,69));
 let editing=false;
+let simple=true;
 
 const store={
   data:(()=>{try{return JSON.parse(localStorage.getItem('regime.v1'))||{}}catch(e){return{}}})(),
@@ -450,19 +458,37 @@ function renderDay(){
   document.getElementById('ditems').innerHTML=items+cust+
     `<button class="addbtn" id="addit">+ add item to this day</button>`;
   document.getElementById('addit').onclick=()=>{const t=prompt(`Add to ${FULL[wd]} ${selDate.getDate()}:`);
-    if(t&&t.trim()){store.customs(iso).push({txt:t.trim(),done:false});store.save();renderDay();if(live)renderToday();refreshCounts();}};
+    if(t&&t.trim()){store.customs(iso).push({txt:t.trim(),done:false});store.save();renderDay();refreshCounts();}};
 
+  document.getElementById('vseg').innerHTML=editing?'':
+    `<button aria-pressed="${simple}" data-v="s">Simple</button><button aria-pressed="${!simple}" data-v="f">Full day</button>`;
+  document.querySelectorAll('#vseg button').forEach(x=>x.onclick=()=>{
+    simple=x.dataset.v==='s';store.data.simple=simple;store.save();renderDay()});
   document.getElementById('ribbon').innerHTML=set.map(b=>
     `<i style="flex:${dur(b)};background:${C[b.t]}" title="${esc(b.h)}"></i>`).join('');
-  document.getElementById('blocks').innerHTML=set.map((b,i)=>{
+  const showAll=!simple||editing;
+  const KEEP=['swim','bike','run','lift','play','cls','fuel'];
+  let rows=set.map((b,i)=>({b,i}));
+  if(!showAll)rows=rows.filter(x=>KEEP.includes(x.b.t));
+  const row=({b,i})=>{
     const d=dur(b), dl=d>=60?hhmm(d):d+'m';
     const id=`blk:${iso}:${wd}:${i}`;
     const ck=(!editing)?`<input type="checkbox" class="ck bck" data-id="${id}" ${store.done(id)?'checked':''}>`:'';
     const eb=editing?`<button class="ebtn" data-e="${i}">edit</button>`:'';
+    const note=b.n&&(showAll||b.t!=='fuel')?`<span class="n">${esc(b.n)}</span>`:'';
     return `<li class="${b.as?'assume':''}${!editing&&store.done(id)?' done':''}" data-bi="${i}">
-      <span class="bt">${b.a}–${b.b}</span>
+      <span class="bt">${b.a}${showAll?'–'+b.b:''}</span>
       <span class="bc" style="background:${C[b.t]}"></span>
-      <span class="bx">${ck}${eb}<span class="dur">${dl}</span><span class="h">${esc(b.h)}</span>${b.n?`<span class="n">${esc(b.n)}</span>`:''}</span></li>`}).join('');
+      <span class="bx">${ck}${eb}<span class="dur">${dl}</span><span class="h">${esc(b.h)}</span>${note}</span></li>`};
+  let bhtml=rows.map(row).join('');
+  if(!showAll){
+    const slp=set.find(b=>b.t==='sleep');
+    bhtml=`<li class="mini"><span class="bt">${set[0].a}</span><span class="bc" style="background:var(--rec)"></span><span class="bx"><span class="h">Wake up</span></span></li>`
+      +bhtml
+      +(slp?`<li class="mini"><span class="bt">${slp.a}</span><span class="bc" style="background:var(--sleep)"></span><span class="bx"><span class="h">Lights out</span></span></li>`:'');
+  }
+  document.getElementById('blocks').innerHTML=bhtml;
+  document.getElementById('legend').style.display=showAll?'flex':'none';
   document.querySelectorAll('#blocks .ebtn').forEach(b=>b.onclick=()=>openEditor(+b.dataset.e));
 
   const ctl=document.getElementById('dayctl');
@@ -567,32 +593,6 @@ WEEKS.forEach((w,i)=>{
   lanes.appendChild(el);
 });
 
-/* ---- today panel ---- */
-function renderToday(){
-  const box=document.getElementById('today');
-  let html;
-  if(!IN_PLAN){
-    html=`<div class="lbl">${IDX<0?'Not started':'Race done'}</div>
-      <h2>${IDX<0?'Week 1 begins Thursday 30 July':'Cut phase'}</h2>
-      <div class="meta">${IDX<0?'Swim 30 min · Push lift 45 min':'2,350 kcal · 180g protein · re-scan every 4 weeks'}</div>`;
-  }else{
-    const w=WEEKS[Math.floor(IDX/7)], di=IDX%7, d=w.days[di];
-    const fmt=t0.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
-    const items=d.items.map((x,j)=>{const[k,txt]=x.split('|');
-      return ckRow(`wk:${w.n}:${d.day}:${j}`,`<span class="pill ${LBL[k][0]}">${LBL[k][1]}</span>${txt}`)}).join('');
-    const cust=store.customs(TODAY_ISO).map((c,j)=>customRow(TODAY_ISO,c,j)).join('');
-    html=`<div class="lbl">Today · ${fmt}</div><h2>Week ${w.n} — ${w.title}</h2>
-      <div class="meta">${FULL[DAYS[di]]} · ${w.dates} · <span class="cnt" id="tcnt"></span></div>
-      <div style="margin:14px 0 0;font-size:16px">${items}${cust}</div>
-      <button class="addbtn" id="addcu">+ add to today</button>
-      <p class="tnote">${w.key}</p>`;
-  }
-  box.innerHTML=`<div class="wrap inner">${html}</div>`;
-  const a=document.getElementById('addcu');
-  if(a)a.onclick=()=>{const t=prompt('Add to today:');
-    if(t&&t.trim()){store.customs(TODAY_ISO).push({txt:t.trim(),done:false});store.save();renderToday();renderDay();refreshCounts();}};
-}
-
 /* ---- the kickoff ---- */
 (function(){
   const K=PLAN.kickoff; if(!K) return;
@@ -616,12 +616,6 @@ function renderToday(){
 
 /* ---- counts ---- */
 function refreshCounts(){
-  if(IN_PLAN){
-    const w=WEEKS[Math.floor(IDX/7)], d=w.days[IDX%7];
-    const ids=d.items.map((_,j)=>`wk:${w.n}:${d.day}:${j}`), cus=store.customs(TODAY_ISO);
-    const el=document.getElementById('tcnt');
-    if(el)el.textContent=`${ids.filter(id=>store.done(id)).length+cus.filter(c=>c.done).length}/${ids.length+cus.length} done`;
-  }
   WEEKS.forEach(w=>{
     let n=0,tot=0;
     w.days.forEach(d=>d.items.forEach((_,j)=>{tot++;if(store.done(`wk:${w.n}:${d.day}:${j}`))n++}));
@@ -652,10 +646,10 @@ document.addEventListener('change',e=>{
 document.addEventListener('click',e=>{
   const rm=e.target.closest('.rmv');
   if(rm){e.preventDefault();const[iso,j]=rm.dataset.rm.split('|');
-    store.customs(iso).splice(+j,1);store.save();renderToday();renderDay();refreshCounts();}
+    store.customs(iso).splice(+j,1);store.save();renderDay();refreshCounts();}
 });
 
-renderToday();
+simple=store.data.simple!==false;
 renderDay();
 refreshCounts();
 
