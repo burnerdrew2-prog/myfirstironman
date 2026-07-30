@@ -247,6 +247,37 @@ li.done .bx .h{text-decoration:line-through}
 .blocks li.mini .bt{padding:8px 0 8px 16px}
 .blocks li.mini .bx{padding:7px 16px 8px 0}
 
+/* KPI tiles */
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:20px}
+.kpi{background:var(--card);border-radius:var(--rad);box-shadow:var(--shadow);padding:18px 20px}
+.kpi .kn{display:block;font-family:var(--disp);font-size:38px;font-weight:700;line-height:1.05;letter-spacing:-.02em}
+.kpi .kl{display:block;font-size:12.5px;font-weight:600;color:var(--ink);margin-top:6px}
+.kpi .ks{display:block;font-size:11.5px;color:var(--ink2);margin-top:2px}
+/* swim log */
+.swform{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.swform input{background:var(--deck);border:1px solid var(--rule);border-radius:10px;font:inherit;font-size:15px;padding:9px 12px}
+.swform input[type=number]{width:170px}
+.swform .act{background:var(--blue);color:#fff;border:0;border-radius:980px;font-size:14px;font-weight:500;padding:9px 20px;cursor:pointer}
+.swform .act:hover{background:#0077ED}
+.swlist{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.swtag{background:var(--deck);border-radius:980px;font-size:12.5px;color:var(--ink2);padding:5px 12px}
+.swtag b{color:var(--ink)}
+.swtag button{background:none;border:0;color:var(--ink2);cursor:pointer;font-size:14px;padding:0 0 0 6px}
+/* weekly adherence */
+.wrow{display:grid;grid-template-columns:minmax(120px,220px) 1fr 52px;gap:12px;align-items:center;padding:9px 0;border-top:1px solid rgba(0,0,0,.05)}
+.wrow:first-child{border-top:0}
+.wrow .wl{font-size:13.5px;color:var(--ink2)} .wrow .wl b{color:var(--ink)}
+.pbar{display:block;height:8px;background:var(--deck);border-radius:980px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--blue);border-radius:980px}
+.wrow .wn{font-family:var(--mono);font-size:12px;color:var(--ink2);text-align:right}
+.wrow.fut{opacity:.45}
+/* consistency heat */
+.heatwrap{overflow-x:auto}
+.heat{display:grid;grid-template-columns:34px repeat(10,26px);gap:5px;align-items:center}
+.hlab{font-size:10px;font-weight:600;color:var(--ink2);text-transform:uppercase}
+.hc{width:26px;height:26px;border-radius:7px;background:var(--deck);display:block}
+.hc.fut{opacity:.35}
+
 </style>
 </head>
 <body>
@@ -258,7 +289,7 @@ li.done .bx .h{text-decoration:line-through}
   </div>
 </header>
 
-<nav class="nav"><a href="./">Daily</a><a href="training.html">Training</a><a class="on" href="diet.html">Diet</a><a href="gym.html">Gym</a></nav>
+<nav class="nav"><a href="./">Daily</a><a href="training.html">Training</a><a class="on" href="diet.html">Diet</a><a href="gym.html">Gym</a><a href="progress.html">Progress</a></nav>
 
 <section class="wrap">
   <div class="tag">Targets &middot; maintenance until 5 October</div>
