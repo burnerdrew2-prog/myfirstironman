@@ -286,6 +286,19 @@ li.done .bx .h{text-decoration:line-through}
 .hc{width:26px;height:26px;border-radius:7px;background:var(--deck);display:block}
 .hc.fut{opacity:.35}
 
+/* tap-to-expand block details */
+.blocks li.exp{cursor:pointer}
+.chv{float:right;margin:0 0 0 10px;color:#C7C7CC;font-size:17px;font-weight:600;line-height:1.15;transition:transform .2s}
+li.open .chv{transform:rotate(90deg)}
+.bdetail{display:none;margin:10px 0 4px;background:var(--deck);border-radius:var(--radS);padding:12px 15px;font-size:13.5px;color:#3A3A3C;clear:both}
+li.open .bdetail{display:block}
+.bdetail .bdh{margin:11px 0 4px;font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em}
+.bdetail .bdh:first-child{margin-top:0}
+.bdetail ul{margin:0;padding-left:17px}
+.blocks .bdetail li{display:list-item;grid-template-columns:none;border:0;background:none;padding:2px 0;gap:0;cursor:auto}
+.bdetail b{color:var(--ink)}
+.bdetail .mac2{font-family:var(--mono);font-size:11px;color:var(--ink2);white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -441,6 +454,80 @@ function validDay(bs){
   return tot===1440?null:`day totals ${tot} min, needs 1440`;
 }
 
+
+/* ---- tap-to-expand detail library ---- */
+const sec=(h,items)=>`<p class="bdh">${h}</p><ul>${items.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+const M=(txt,mac)=>`${txt} <span class="mac2">${mac}</span>`;
+function detailFor(b,c){
+  const H=b.h.toLowerCase();
+  if(b.t==='fuel'){
+    if(H.includes('pre-swim'))return sec(`Eat this`,[M(`Banana + 20g whey shaken in water + coffee`,`~28P · 32C · 240 kcal`)])
+      +sec(`Why`,[`Light on purpose — 20 to 40 min before water. A full stomach swims terribly.`]);
+    if(H.includes('pre-bed'))return sec(`Eat this`,[M(`1 cup cottage cheese + a handful of berries`,`~25P · 15C`),M(`or: Greek yogurt + honey`,`~20P · 25C`)])
+      +sec(`Why`,[`Casein digests slowly — a protein drip while you sleep. Easiest 25g of the day.`]);
+    if(H.includes('pre-soccer')||H.includes('pack for golf'))return sec(`Take / eat`,[M(`Banana + a 4-date bag`,`~55C`),`500ml bottle with one electrolyte packet`,`Golf: second bottle plain water, almonds in the bag`])
+      +sec(`Rule`,[`No cart drinks, no gas-station candy — you brought better.`]);
+    if(H.includes('recovery'))return sec(`The shake`,[M(`1½ scoops whey + banana + big spoon of honey, in milk`,`~45P · 70C`)])
+      +sec(`Why`,[`Within 45 min. Glycogen refills fastest now, and the next session is under 24h away.`]);
+    if(H.includes('lunch'))return sec(`Eat this`,[M(`Chicken box: 8oz chicken + 1½ cups rice + broccoli + olive oil`,`~55P · 75C · ~750 kcal`),M(`or taco bowl: beef + beans + rice + salsa + ½ avocado`,`~45P · 70C`)])
+      +sec(`From the batch`,[`Both come out of the weekly cook — 90 seconds in the microwave.`]);
+    if(H.includes('dinner'))return sec(`Eat this — pick one`,[M(`Taco bowls, or 3 tacos on corn tortillas`,`~45P · 65C`),M(`Steak + microwaved russet + spinach`,`~50P · 55C`),M(`Salmon fillet + rice + broccoli`,`~40P · 70C`)])
+      +sec(`Long days`,[`Add a second carb serving — the eat card above already counted it.`]);
+    if(H.includes('second breakfast'))return sec(`Eat this`,[M(`Bagel + 3 eggs + Greek yogurt with honey`,`~45P · 80C`)])
+      +sec(`Why`,[`You are ~2,000 kcal down after a long ride. This meal is where the day is saved or lost.`]);
+    if(H.includes('breakfast')&&H.includes('pre-ride')===false)return sec(`Eat this`,[M(`4 eggs scrambled + 2 sourdough toast + fruit + a glass of milk`,`~42P · 65C · ~700 kcal`),M(`or an overnight oats jar + 2 boiled eggs`,`~40P · 70C`)])
+      +sec(`Note`,[`After a morning swim this is the biggest protein feed before lunch — do not skim it.`]);
+    if(H.includes('pre-ride'))return sec(`Eat this`,[M(`Bagel with honey + coffee`,`~8P · 70C · 350 kcal`)])
+      +sec(`Why`,[`90 min before rolling, low fibre. Race morning uses this exact meal — that is the point.`]);
+    if(H.includes('costco'))return sec(`The kickoff shop`,[`Full list and timeline in the kickoff section below.`,`List in hand, 50 minutes, freezer items last into the cart.`]);
+    if(H.includes('portion'))return sec(`The 20 minutes that matter`,[`6.5 lb chicken → 13 bags of 8 oz. Freeze 9, fridge 4.`,`Sirloin → single steaks, frozen. Two beef tubes freeze, two to the fridge.`,`Skip this and three pounds of meat hits the bin by August.`]);
+    if(H.includes('batch cook')||H.includes('sunday prep')||H.includes('cook the week'))return sec(`The four recipes`,[`Sheet-pan chicken + broccoli — 4 lunches`,`Taco beef — 5 servings`,`The rice pot — the week's carbs`,`Eggs, oats jars and date bags while the oven runs`])
+      +sec(`Where`,[`Step-by-step with checkboxes: the kickoff section below this week, the Diet page after.`]);
+    if(H.includes('snack'))return sec(`Options`,[M(`Greek yogurt + honey`,`~20P`),M(`Cottage cheese cup`,`~25P`),M(`2 boiled eggs + fruit`,`~13P`),M(`Tuna on crackers`,`~26P`)]);
+    return sec(`Fuel block`,[`Hit the day's targets on the eat card above. Protein first, carbs around training.`]);
+  }
+  if(b.t==='swim'){
+    const wk=c.wk;
+    const cues=[`Exhale underwater the whole time — the panic is CO₂, not oxygen.`,`Slow is smooth. Effort makes a bad stroke worse.`,`After: log your longest continuous yards on the Progress page.`];
+    if(wk<=2)return sec(`Week ${wk} session — build the stroke`,[`Warm-up: 2×50 easy, rest as needed`,`Drills: 4×25 side-kick · 4×25 catch-up · bubbles between`,`Main: 4×50 relaxed — count strokes each 25, same count every time`,`Cool: 50 easy`])+sec(`Cues`,cues);
+    if(wk<=4)return sec(`Week ${wk} session — make it continuous`,[`Warm-up: 200 easy`,`Main: 4×100 with 30s rest, then ONE continuous swim — beat last week's distance`,`Breathe bilateral, every 3 strokes`,`Cool: 100 easy`])+sec(`Cues`,cues);
+    if(wk===5)return sec(`Gate 1 week`,[`Midweek: 2×400 with 60s rest, steady`,`Sunday: 200 warm-up, then the 800 — continuous, no wall stops`,`Miss it → coaching gets bought this week. That was the deal.`])+sec(`Cues`,cues);
+    if(wk<=7)return sec(`Week ${wk} session — toward 1,500`,[`Warm-up: 200 + 4×50 build`,`Main: 3×500 with 45s rest, or a continuous attempt past 1,000`,`Week 7 Sunday: the 1,500. The real checkpoint.`])+sec(`Cues`,cues);
+    return sec(`Week ${wk} — open water + race pace`,[`Sight every 9 strokes — eyes up without stopping the stroke`,`Race kit on. Buoy turns. Never open water alone.`,`Pool days: 4×300 at race effort, long rest`])+sec(`Cues`,cues);
+  }
+  if(b.t==='bike'){
+    const f=c.dur>=120?`70–90g carbs/hr + 500–700mg sodium/hr — Texas is a salt problem`:c.dur>=75?`60g carbs/hr — a bottle of sports drink + a gel or 4 dates`:`Water only — under 75 min needs nothing`;
+    return sec(`How to ride it`,[`Zone 2 — full sentences out loud. If you can't, slow down.`,`Cadence 85–95: spin, don't grind.`,`Eat at mile 15 even feeling fine — the wall runs 40 minutes behind schedule.`])
+      +sec(`Fuel`,[f,`Two bottles minimum, one with electrolyte.`])
+      +(c.wk>=5?sec(`From week 5`,[`Ride the race-day fuel plan exactly. Nothing new in October.`]):``);
+  }
+  if(b.t==='run')return sec(`How to run it`,[`Conversational pace — genuinely easy. Hero miles now are stolen from the swim.`,`Short light steps, ~175/min, beats long strides.`,`Walk breaks are a tool, not a failure.`])
+    +sec(`Heat`,[`Evening runs: shaded route, electrolytes after, phone on you.`]);
+  if(b.t==='lift'){
+    const A=c.wd==='Tue'||H.includes('push')||H.includes('upper');
+    return A?sec(`Day A — upper, 45 min`,[`Bench press 4×5 — start 180`,`Wide pull-up 4×6 — add weight when easy`,`Incline DB press 3×8`,`Pendlay row 3×8 — 115 total`,`Hanging leg raise 3×15`])
+      +sec(`Rules`,[`~2 reps in reserve every set · 2–3 min rest on compounds`,`All sets clean → +5 lb next time. Log it in Hevy.`])
+      :sec(`Day B — lower, 45 min`,[`Back squat 3×5 — 135, technique first, film it`,`Romanian deadlift 3×6 — 185`,`Bulgarian split squat 2×10 each leg`,`Standing calf raise 3×15 · plank 3×45s`])
+      +sec(`Rules`,[`Depth before load on the squat — that's the deal.`,`Monday on purpose: soreness clears before the weekend ride.`]);
+  }
+  if(b.t==='play'){
+    if(H.includes('golf'))return sec(`Golf is training if you let it`,[`Walk it — 4–5 miles of easy aerobic work. A cart makes it four hours of standing.`,`Bag: 2 bottles (1 electrolyte), 4-date bag, almonds, sunscreen.`,`No cart drinks. You brought better.`]);
+    if(H.includes('soccer'))return sec(`The hard run of the week`,[`Count it as quality — no extra intervals this week.`,`Before: banana + dates + electrolyte. After: shake within 45 min.`,`Warm up the ankles and hamstrings — they are race collateral.`]);
+    if(H.includes('dinner')||H.includes('drinks'))return sec(`The night out, managed`,[`One water per drink — order them together.`,`Eat early and properly; the damage lives in drunk snacking.`,`Cap it where tomorrow still happens. Tomorrow is scheduled easy for exactly this reason.`]);
+    return ``;
+  }
+  if(b.t==='rec'){
+    if(H.includes('mobility'))return sec(`The 15-minute routine`,[`90s cat-cow + thoracic rotations 2×8 per side`,`Wall slides 2×10 + arm circles — bench shoulders fight freestyle`,`Ankle rocks 2×10 per side · 60s couch stretch each leg`])
+      +sec(`Why`,[`A tight T-spine is a short stroke. This is swim training in disguise.`]);
+    if(H.includes('screens')||H.includes('wind down'))return sec(`Down-shift`,[`Phone charges outside arm's reach`,`Room cold and dark — 67–69°F if you can get it`,`The same lights-out time nightly beats extra weekend sleep`]);
+    if(H.includes('nap'))return sec(`The nap is a session`,[`30–40 min, before 3pm, dark room.`,`Longer turns groggy; later and tonight's sleep pays for it.`]);
+    if(H.includes('bottles')||H.includes('tyres'))return sec(`Pre-ride checklist`,[`Two bottles — one plain, one electrolyte`,`4-date bags in the pocket · tyres to pressure · helmet, sunscreen, phone`,`Laid out the night before = 15 more minutes of sleep`]);
+    return ``;
+  }
+  if(b.t==='sleep')return sec(`8 hours is a training session`,[`Adaptation happens here, not in the pool.`,`Caffeine cutoff 2pm. Alcohol trades deep sleep for junk sleep.`,`Tomorrow's first block is the reason tonight has a bedtime.`]);
+  return ``;
+}
+
 /* ---- date strip + per-date day view ---- */
 function renderStrip(){
   const s=document.getElementById('datestrip');
@@ -507,10 +594,12 @@ function renderDay(){
     const ck=(!editing)?`<input type="checkbox" class="ck bck" data-id="${id}" ${store.done(id)?'checked':''}>`:'';
     const eb=editing?`<button class="ebtn" data-e="${i}">edit</button>`:'';
     const note=b.n&&(showAll||b.t!=='fuel')?`<span class="n">${esc(b.n)}</span>`:'';
-    return `<li class="${b.as?'assume':''}${!editing&&store.done(id)?' done':''}" data-bi="${i}">
+    const det=editing?'':detailFor(b,{wk:Math.floor(idx/7)+1,wd,dur:d});
+    const chv=det?`<span class="chv" aria-hidden="true">›</span>`:'';
+    return `<li class="${b.as?'assume':''}${!editing&&store.done(id)?' done':''}${det?' exp':''}" data-bi="${i}">
       <span class="bt">${b.a}${showAll?'–'+b.b:''}</span>
       <span class="bc" style="background:${C[b.t]}"></span>
-      <span class="bx">${ck}${eb}<span class="dur">${dl}</span><span class="h">${esc(b.h)}</span>${note}</span></li>`};
+      <span class="bx">${ck}${chv}${eb}<span class="dur">${dl}</span><span class="h">${esc(b.h)}</span>${note}${det?`<div class="bdetail">${det}</div>`:''}</span></li>`};
   let bhtml=rows.map(row).join('');
   if(!showAll){
     const slp=set.find(b=>b.t==='sleep');
@@ -680,6 +769,11 @@ document.addEventListener('click',e=>{
     store.customs(iso).splice(+j,1);store.save();renderDay();refreshCounts();}
 });
 
+document.getElementById('blocks').addEventListener('click',e=>{
+  if(e.target.closest('input,button,a,.ef'))return;
+  const li=e.target.closest('li.exp');
+  if(li)li.classList.toggle('open');
+});
 simple=store.data.simple!==false;
 renderDay();
 refreshCounts();
