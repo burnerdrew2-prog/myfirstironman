@@ -432,9 +432,9 @@ function renderDay(){
   document.getElementById('blocks').innerHTML=set.map((b,i)=>{
     const d=dur(b), dl=d>=60?hhmm(d):d+'m';
     const id=`blk:${iso}:${wd}:${i}`;
-    const ck=(live&&!editing)?`<input type="checkbox" class="ck bck" data-id="${id}" ${store.done(id)?'checked':''}>`:'';
+    const ck=(!editing)?`<input type="checkbox" class="ck bck" data-id="${id}" ${store.done(id)?'checked':''}>`:'';
     const eb=editing?`<button class="ebtn" data-e="${i}">edit</button>`:'';
-    return `<li class="${b.as?'assume':''}${live&&!editing&&store.done(id)?' done':''}" data-bi="${i}">
+    return `<li class="${b.as?'assume':''}${!editing&&store.done(id)?' done':''}" data-bi="${i}">
       <span class="bt">${b.a}–${b.b}</span>
       <span class="bc" style="background:${C[b.t]}"></span>
       <span class="bx">${ck}${eb}<span class="dur">${dl}</span><span class="h">${esc(b.h)}</span>${b.n?`<span class="n">${esc(b.n)}</span>`:''}</span></li>`}).join('');
