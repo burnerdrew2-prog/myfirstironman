@@ -476,6 +476,10 @@ function effBlocks(d){
 }
 // Which meals a date eats, in order. Mirrors day_meals() in build.py — if you
 // change one, change the other, or the page and the lock screen will disagree.
+function itemsFor(wi,di){
+  const iso=dISO(addDays(START,wi*7+di));
+  return (OVR[iso]&&OVR[iso].items)||WEEKS[wi].days[di].items;
+}
 function mealsFor(idx,blocks){
   const wd=DAYS[((idx%7)+7)%7];
   const iso0=dISO(addDays(START,idx));
@@ -612,8 +616,7 @@ function renderDay(){
       `<b>${off===0?'on target':(off>0?'+':'')+off+' kcal'}</b></span>`:'')+
     (list?`<span class="mt">${list}</span>`:'')+`</div>`;
 
-  const dayItems=(OVR[iso]&&OVR[iso].items)||w.days[di].items;
-  const items=dayItems.map((x,j)=>{const[k,txt]=x.split('|');
+  const items=itemsFor(Math.floor(idx/7),di).map((x,j)=>{const[k,txt]=x.split('|');
     return ckRow(`wk:${w.n}:${wd}:${j}`,`<span class="pill ${LBL[k][0]}">${LBL[k][1]}</span>${txt}`)}).join('');
   const cust=store.customs(iso).map((c,j)=>customRow(iso,c,j)).join('');
   document.getElementById('ditems').innerHTML=items+cust+
@@ -741,7 +744,7 @@ const lanes=document.getElementById('lanes');
 WEEKS.forEach((w,i)=>{
   const bars=[['s',w.vol.s],['b',w.vol.b],['r',w.vol.r]].map(([k,v])=>`<i class="${k}" style="height:${Math.max(6,v*3.1)}px"></i>`).join('');
   const days=w.days.map((d,dIdx)=>{
-    const items=d.items.map((x,j)=>{const[k,t]=x.split('|');
+    const items=itemsFor(i,dIdx).map((x,j)=>{const[k,t]=x.split('|');
       return ckRow(`wk:${w.n}:${d.day}:${j}`,`<span class="pill ${LBL[k][0]}">${LBL[k][1]}</span>${t}`)}).join('');
     return `<li><button class="dy" data-w="${i}" data-d="${dIdx}">${d.day} ↗</button><span>${items}</span></li>`}).join('');
   const el=document.createElement('div');
@@ -782,9 +785,9 @@ WEEKS.forEach((w,i)=>{
 
 /* ---- counts ---- */
 function refreshCounts(){
-  WEEKS.forEach(w=>{
+  WEEKS.forEach((w,wi)=>{
     let n=0,tot=0;
-    w.days.forEach(d=>d.items.forEach((_,j)=>{tot++;if(store.done(`wk:${w.n}:${d.day}:${j}`))n++}));
+    w.days.forEach((d,di)=>itemsFor(wi,di).forEach((_,j)=>{tot++;if(store.done(`wk:${w.n}:${d.day}:${j}`))n++}));
     const el=document.querySelector(`.cnt[data-lane="${w.n}"]`);
     if(el)el.textContent=`${n}/${tot}`;
   });
